@@ -2,7 +2,7 @@
 
 **What to build:** Admin platform dapat mengelola kategori desain dan mengunggah/mengatur template undangan pernikahan lengkap dengan metadata konfigurasi tema visual (`themeConfig`). Sistem menerapkan tema tersebut secara server-side melalui CSS variables sehingga gaya tampilan (font, warna primer/sekunder/aksen, tombol) terkunci rapi dan tidak bisa dirusak oleh pengguna akhir.
 
-**Blocked by:** 01: Foundation: Laravel 11 + Breeze Auth, Roles & Base Schema
+**Blocked by:** 01: Foundation: Latest Laravel + Breeze Auth, Roles & Base Schema
 
 **Status:** ready-for-agent
 

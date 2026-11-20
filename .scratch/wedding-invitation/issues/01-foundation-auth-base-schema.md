@@ -1,6 +1,6 @@
-# 01: Foundation: Laravel 11 + Breeze Auth, Roles & Base Schema
+# 01: Foundation: Latest Laravel + Breeze Auth, Roles & Base Schema
 
-**What to build:** Pengunjung dapat mendaftarkan akun baru, memverifikasi email melalui tautan email, login dengan email dan password dengan perlindungan rate-limiting, serta melakukan reset password ketika lupa kata sandi. Pengguna terautentikasi diarahkan ke dashboard pengguna biasa, sedangkan admin diarahkan ke portal admin berdasarkan role pengguna.
+**What to build:** Pengunjung dapat mendaftarkan akun baru, memverifikasi email melalui tautan email, login dengan email dan password dengan perlindungan rate-limiting, serta melakukan reset password ketika lupa kata sandi. Menggunakan framework Laravel versi terbaru (PHP 8.4/8.5, Tailwind CSS 4, Livewire 3). Pengguna terautentikasi diarahkan ke dashboard pengguna biasa, sedangkan admin diarahkan ke portal admin berdasarkan role pengguna.
 
 **Blocked by:** None (can start immediately)
 

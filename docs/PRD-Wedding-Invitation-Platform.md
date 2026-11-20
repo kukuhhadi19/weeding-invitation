@@ -1,7 +1,7 @@
 # 📋 Product Requirements Document (PRD)
 ## **Undangan Digital Pernikahan — Self-Service Platform**
 
-> **Versi**: 1.0 &nbsp;|&nbsp; **Tanggal**: 20 November 2026 &nbsp;|&nbsp; **Status**: Draft — Menunggu Feedback
+> **Versi**: 1.1 &nbsp;|&nbsp; **Tanggal**: 20 November 2026 &nbsp;|&nbsp; **Status**: Updated — Latest Tech Stack
 
 ---
 
@@ -13,7 +13,7 @@ Membuat undangan pernikahan digital di Indonesia masih mahal jika lewat vendor, 
 
 ### 1.2 Proposed Solution
 
-Platform web self-service berbasis **Laravel + Livewire** di mana pengguna bisa mendaftar, memilih template dari katalog, mengisi detail acara (dual-event: akad & resepsi), dan mempublikasikan undangan ke URL/slug publik. Monetisasi melalui **4-tier subscription** dengan pembayaran via **Midtrans Snap**. Admin mengelola katalog template & kategori lewat panel khusus. Setiap template membawa konfigurasi tema/warna bawaan (`themeConfig`) yang **tidak bisa di-override** end-user, menjaga konsistensi visual.
+Platform web self-service berbasis **Laravel (versi terbaru) + Livewire 3 + Tailwind CSS 4** di mana pengguna bisa mendaftar, memilih template dari katalog, mengisi detail acara (dual-event: akad & resepsi), dan mempublikasikan undangan ke URL/slug publik. Monetisasi melalui **4-tier subscription** dengan pembayaran via **Midtrans Snap**. Admin mengelola katalog template & kategori lewat panel khusus. Setiap template membawa konfigurasi tema/warna bawaan (`themeConfig`) yang **tidak bisa di-override** end-user, menjaga konsistensi visual.
 
 ### 1.3 Success Criteria (KPI)
 
@@ -199,20 +199,22 @@ flowchart TD
 
 ### 3.2 Tech Stack
 
-| Layer | Teknologi | Versi (Min) |
-|-------|-----------|-------------|
-| **Language** | PHP | 8.2+ |
-| **Framework** | Laravel | 11.x |
-| **Frontend Interactivity** | Livewire | 3.x |
-| **CSS** | Tailwind CSS | 3.x |
-| **Database** | PostgreSQL | 15+ |
-| **Cache / Queue / Session** | Redis | 7.x |
-| **Payment Gateway** | Midtrans Snap (Server + Client SDK) | — |
-| **Email** | SMTP / Mailgun | — |
-| **File Storage** | Local disk (MVP) → S3-compatible (scale) | — |
-| **Web Server** | Nginx | 1.24+ |
-| **Process Manager** | Supervisor (queue worker) | — |
-| **Dev Environment** | Laragon (Windows) | — |
+| Layer | Teknologi | Versi (Terbaru) | Catatan |
+|-------|-----------|-----------------|---------|
+| **Language** | PHP | 8.4+ / 8.5+ | Local Laragon running PHP 8.5.12 |
+| **Framework** | Laravel | 11.x / 12.x | Versi stabil terbaru |
+| **Frontend Interactivity** | Livewire | 3.x | Versi terbaru Livewire component |
+| **CSS** | Tailwind CSS | 4.x | Versi terbaru Tailwind (engine baru tanpa PostCSS/Tailwind config rumit) |
+| **JavaScript / Runtime** | Node.js | v22+ LTS / v26+ | Local environment running Node v26.13.1 |
+| **Database** | PostgreSQL | 17+ | Versi stabil PostgreSQL terbaru |
+| **Cache / Queue / Session** | Redis / Valkey | 7.4+ / 8.x | Versi terbaru |
+| **Testing Framework** | Pest PHP | v3.x | Testing modern untuk Laravel |
+| **Payment Gateway** | Midtrans Snap | Latest SDK / API | Snap pop-up + Server Notification Webhook |
+| **Email** | SMTP / Mailgun | Latest API | Laravel Mailable & Notification |
+| **File Storage** | Local disk (MVP) → S3-compatible (scale) | — | Storage driver Laravel |
+| **Web Server** | Nginx | 1.26+ (Stable) | Proxy & SSL termination |
+| **Process Manager** | Supervisor | Latest | Queue worker process manager |
+| **Dev Environment** | Laragon (Windows) | — | PHP 8.5+, Composer 2.11+, Node.js v26+ |
 
 ### 3.3 Database Schema (Core Tables)
 
