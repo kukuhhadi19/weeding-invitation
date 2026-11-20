@@ -12,7 +12,18 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['"Lexend Deca"', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                primary: {
+                    DEFAULT: '#165DFF',
+                    hover: '#0E4BD9',
+                },
+                foreground: '#080C1A',
+                secondary: '#6A7686',
+                border: '#F3F4F3',
+                muted: '#EFF2F7',
+                'card-grey': '#F1F3F6',
             },
         },
     },

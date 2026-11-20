@@ -43,6 +43,41 @@ test('users can not authenticate with invalid password', function () {
     $this->assertGuest();
 });
 
+test('unverified user login redirects to verification notice', function () {
+    $user = User::factory()->unverified()->create([
+        'password' => \Illuminate\Support\Facades\Hash::make('Password123'),
+    ]);
+
+    $component = Volt::test('pages.auth.login')
+        ->set('form.email', $user->email)
+        ->set('form.password', 'Password123');
+
+    $component->call('login');
+
+    $component
+        ->assertHasNoErrors()
+        ->assertRedirect(route('verification.notice', absolute: false));
+
+    $this->assertAuthenticatedAs($user);
+});
+
+test('login is rate limited after 5 failed attempts', function () {
+    $user = User::factory()->create();
+
+    for ($i = 0; $i < 5; $i++) {
+        Volt::test('pages.auth.login')
+            ->set('form.email', $user->email)
+            ->set('form.password', 'wrong-password')
+            ->call('login');
+    }
+
+    Volt::test('pages.auth.login')
+        ->set('form.email', $user->email)
+        ->set('form.password', 'wrong-password')
+        ->call('login')
+        ->assertHasErrors(['form.email']);
+});
+
 test('admin user login redirects to admin dashboard', function () {
     $admin = User::factory()->create([
         'role' => 'admin',
