@@ -4,11 +4,11 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** completed
 
-- [ ] Form registrasi memvalidasi nama, email unik, dan password kuat (min 8 karakter, 1 huruf kapital, 1 angka).
-- [ ] Email verifikasi dikirimkan saat pendaftaran dengan tautan yang berlaku 60 menit; akun berstatus `unverified` sampai email dikonfirmasi.
-- [ ] Pengguna unverified dibatasi dari dashboard pembuatan undangan dan diberikan opsi kirim ulang tautan verifikasi (maksimal 3x per jam).
-- [ ] Form login memvalidasi kredensial dengan batas 5 percobaan gagal per 15 menit dan mendukung sesi "Remember Me".
-- [ ] Alur forgot/reset password mengirimkan link reset yang kedaluwarsa setelah 60 menit dan menginvalidasi seluruh sesi aktif setelah password baru disetel.
-- [ ] Schema database dasar untuk pengguna membedakan peran `user` dan `admin` serta menyiapkan relasi tier langganan awal.
+- [x] Form registrasi memvalidasi nama, email unik, dan password kuat (min 8 karakter, 1 huruf kapital, 1 angka).
+- [x] Email verifikasi dikirimkan saat pendaftaran dengan tautan yang berlaku 60 menit; akun berstatus `unverified` sampai email dikonfirmasi.
+- [x] Pengguna unverified dibatasi dari dashboard pembuatan undangan dan diberikan opsi kirim ulang tautan verifikasi (maksimal 3x per jam).
+- [x] Form login memvalidasi kredensial dengan batas 5 percobaan gagal per 15 menit dan mendukung sesi "Remember Me".
+- [x] Alur forgot/reset password mengirimkan link reset yang kedaluwarsa setelah 60 menit dan menginvalidasi seluruh sesi aktif setelah password baru disetel.
+- [x] Schema database dasar untuk pengguna membedakan peran `user` dan `admin` serta menyiapkan relasi tier langganan awal.
