@@ -202,7 +202,7 @@ flowchart TD
 | Layer | Teknologi | Versi (Terbaru) | Catatan |
 |-------|-----------|-----------------|---------|
 | **Language** | PHP | 8.4+ / 8.5+ | Local Laragon running PHP 8.5.12 |
-| **Framework** | Laravel | 11.x / 12.x | Versi stabil terbaru |
+| **Framework** | Laravel | 12.x / 13.x | Versi stabil terbaru |
 | **Frontend Interactivity** | Livewire | 3.x | Versi terbaru Livewire component |
 | **CSS** | Tailwind CSS | 4.x | Versi terbaru Tailwind (engine baru tanpa PostCSS/Tailwind config rumit) |
 | **JavaScript / Runtime** | Node.js | v22+ LTS / v26+ | Local environment running Node v26.13.1 |
