@@ -8,19 +8,13 @@
       "skillPath": "skills/prd/SKILL.md",
       "computedHash": "424b3e518d548708e4a2d3124ab9b7b57c0f0d9261bef6e7c91ad4dd7c9e0840"
     },
-    "to-spec": {
+    "to-issues": {
       "source": "mattpocock/skills",
-      "commit": "abeeaf95660ba9e8b7c753eb38f441ca707a8823",
+      "ref": "v1",
+      "commit": "8a54bc33a374ffbed769d7c3ea1c4a0e82034cbd",
       "sourceType": "github",
-      "skillPath": "skills/engineering/to-spec/SKILL.md",
-      "computedHash": "eb934b5eda9523c7853a2741544bd4721ee1bea471f5a04f8397827f67bdbdda"
-    },
-    "to-tickets": {
-      "source": "mattpocock/skills",
-      "commit": "abeeaf95660ba9e8b7c753eb38f441ca707a8823",
-      "sourceType": "github",
-      "skillPath": "skills/engineering/to-tickets/SKILL.md",
-      "computedHash": "17496514c92954f68eacdf2b1221e2ddb39fa231b83f03c70bc7d4422f704b2d"
+      "skillPath": "to-issues/SKILL.md",
+      "computedHash": "d21d83d7548bdaa6e219ced523d90ef4e2468ea1418cc225627967ca99ece1e7"
     }
   }
 }
