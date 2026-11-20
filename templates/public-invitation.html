@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Invitation: Sarah & Michael</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style type="text/tailwindcss">
+  :root {
+    --primary: #165DFF;
+    --primary-hover: #0E4BD9;
+    --foreground: #080C1A;
+    --secondary: #6A7686;
+    --muted: #EFF2F7;
+    --border: #F3F4F3;
+    --card-grey: #F1F3F6;
+    --success: #30B22D;
+    --error: #ED6B60;
+    --warning: #FED71F;
+    --font-sans: 'Lexend Deca', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+  }
+  @theme inline {
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-foreground: var(--foreground);
+    --color-secondary: var(--secondary);
+    --color-muted: var(--muted);
+    --color-border: var(--border);
+    --color-card-grey: var(--card-grey);
+    --color-success: var(--success);
+    --color-error: var(--error);
+    --color-warning: var(--warning);
+    --font-sans: var(--font-sans);
+    --font-serif: var(--font-serif);
+  }
+  body {
+    background-color: #E5E7EB; /* Darker background for desktop to frame the mobile view */
+    -webkit-font-smoothing: antialiased;
+  }
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center">
+
+  <!-- Main Mobile-First Container -->
+  <main class="w-full max-w-md bg-white min-h-screen shadow-2xl relative pb-28 flex flex-col">
+    
+    <!-- Hero Section -->
+    <div class="relative h-[40vh] min-h-[300px] w-full shrink-0">
+      <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=600&fit=crop" alt="Wedding Flowers" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6">
+        <div class="fade-in-up">
+          <p class="text-white/80 text-sm uppercase tracking-[0.2em] text-center mb-2 font-medium">The Wedding Of</p>
+          <h1 class="text-white text-4xl md:text-5xl font-serif text-center leading-tight">Sarah <span class="text-primary/80">&</span><br>Michael</h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="p-6 flex flex-col gap-8 flex-1">
+      
+      <!-- Greeting -->
+      <div class="text-center fade-in-up" style="animation-delay: 0.2s;">
+        <h2 class="text-2xl font-serif text-foreground mb-3">Dear John Doe,</h2>
+        <p class="text-secondary leading-relaxed text-[15px]">
+          We joyfully request the pleasure of your company as we celebrate our marriage and the beginning of our new life together.
+        </p>
+      </div>
+
+      <!-- Details Card -->
+      <div class="bg-card-grey rounded-3xl p-1 flex flex-col fade-in-up" style="animation-delay: 0.4s;">
+        <div class="bg-white rounded-[22px] p-5 flex flex-col gap-5 border border-border shadow-sm">
+          
+          <!-- Date & Time -->
+          <div class="flex items-start gap-4">
+            <div class="size-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+              <i data-lucide="calendar-heart" class="size-6 text-primary"></i>
+            </div>
+            <div class="pt-0.5">
+              <p class="font-semibold text-foreground text-lg">Saturday, Oct 15, 2024</p>
+              <p class="text-secondary text-sm mt-1">Ceremony begins at 4:00 PM<br>Reception to follow</p>
+            </div>
+          </div>
+          
+          <div class="h-px w-full bg-border"></div>
+          
+          <!-- Location -->
+          <div class="flex items-start gap-4">
+            <div class="size-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+              <i data-lucide="map-pin" class="size-6 text-primary"></i>
+            </div>
+            <div class="pt-0.5">
+              <p class="font-semibold text-foreground text-lg">The Grand Estate</p>
+              <p class="text-secondary text-sm mt-1 mb-2">123 Wedding Lane<br>Celebration City, CA 90210</p>
+              <a href="#" class="inline-flex items-center gap-1.5 text-primary text-sm font-semibold hover:text-primary-hover transition-colors bg-primary/5 px-3 py-1.5 rounded-lg">
+                View on Map <i data-lucide="external-link" class="size-3.5"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div class="text-center px-4 py-2 fade-in-up" style="animation-delay: 0.6s;">
+        <p class="italic text-secondary font-serif text-xl text-center">"Two souls, one heart."</p>
+      </div>
+
+    </div>
+
+    <!-- Sticky Footer (RSVP Actions) -->
+    <div id="sticky-footer" class="fixed bottom-0 left-0 right-0 w-full flex justify-center z-40 p-4 pointer-events-none">
+      <div class="w-full max-w-md bg-white/80 backdrop-blur-xl border border-border rounded-2xl p-3 shadow-[0_-8px_30px_-15px_rgba(0,0,0,0.1)] flex gap-3 pointer-events-auto">
+        <button onclick="showRSVPModal('decline')" class="flex-1 py-3.5 px-4 rounded-xl font-semibold text-secondary bg-muted hover:bg-card-grey transition-colors cursor-pointer">
+          Decline
+        </button>
+        <button onclick="showRSVPModal('accept')" class="flex-1 py-3.5 px-4 rounded-xl font-semibold text-white bg-primary hover:bg-primary-hover transition-colors shadow-lg shadow-primary/25 cursor-pointer">
+          Accept Invite
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- RSVP Modal -->
+  <div id="rsvp-modal" class="fixed inset-0 bg-foreground/40 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-[28px] w-full max-w-sm overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="rsvp-modal-content">
+      <!-- Content injected by JS -->
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    function showRSVPModal(status) {
+      const modal = document.getElementById('rsvp-modal');
+      const content = document.getElementById('rsvp-modal-content');
+      
+      modal.classList.remove('hidden');
+      
+      // Trigger animation
+      requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      });
+
+      if (status === 'accept') {
+        content.innerHTML = `
+          <div class="p-6 text-center">
+            <div class="size-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="party-popper" class="size-8 text-success"></i>
+            </div>
+            <h3 class="text-2xl font-serif font-bold mb-2">Can't Wait!</h3>
+            <p class="text-secondary mb-6 text-sm">We are so excited you can make it, John.</p>
+            
+            <div class="text-left mb-6">
+              <label class="block text-sm font-medium text-foreground mb-2">Any dietary restrictions?</label>
+              <input type="text" id="inputDiet" placeholder="e.g., Vegetarian, Nut allergy" class="w-full px-4 py-3.5 rounded-xl border border-border bg-muted focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm">
+            </div>
+            
+            <div class="flex gap-3">
+              <button onclick="closeRSVPModal()" class="flex-1 py-3.5 rounded-xl font-medium text-secondary bg-muted hover:bg-card-grey cursor-pointer">Cancel</button>
+              <button onclick="submitRSVP('Accepted')" class="flex-1 py-3.5 rounded-xl font-bold text-white bg-primary hover:bg-primary-hover cursor-pointer">Confirm RSVP</button>
+            </div>
+          </div>
+        `;
+      } else {
+        content.innerHTML = `
+          <div class="p-6 text-center">
+            <div class="size-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="mail-open" class="size-8 text-secondary"></i>
+            </div>
+            <h3 class="text-2xl font-serif font-bold mb-2">We'll Miss You</h3>
+            <p class="text-secondary mb-6 text-sm">We're sorry you won't be able to join us, John.</p>
+            
+            <div class="text-left mb-6">
+              <label class="block text-sm font-medium text-foreground mb-2">Leave a message (optional)</label>
+              <textarea id="inputMessage" rows="3" placeholder="Wishing you the best..." class="w-full px-4 py-3.5 rounded-xl border border-border bg-muted focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none text-sm"></textarea>
+            </div>
+            
+            <div class="flex gap-3">
+              <button onclick="closeRSVPModal()" class="flex-1 py-3.5 rounded-xl font-medium text-secondary bg-muted hover:bg-card-grey cursor-pointer">Cancel</button>
+              <button onclick="submitRSVP('Declined')" class="flex-1 py-3.5 rounded-xl font-bold text-white bg-foreground hover:bg-black cursor-pointer">Send RSVP</button>
+            </div>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    function closeRSVPModal() {
+      const modal = document.getElementById('rsvp-modal');
+      const content = document.getElementById('rsvp-modal-content');
+      
+      modal.classList.add('opacity-0');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function submitRSVP(status) {
+      closeRSVPModal();
+      showToast(`RSVP ${status} successfully!`, 'success');
+      
+      // Update sticky footer to show confirmed state
+      const footer = document.getElementById('sticky-footer');
+      footer.innerHTML = `
+        <div class="w-full max-w-md bg-white/90 backdrop-blur-xl border border-border rounded-2xl p-4 shadow-lg flex items-center justify-between pointer-events-auto">
+          <div class="flex items-center gap-3">
+            <div class="size-10 rounded-full ${status === 'Accepted' ? 'bg-success/10' : 'bg-muted'} flex items-center justify-center">
+              <i data-lucide="${status === 'Accepted' ? 'check' : 'x'}" class="size-5 ${status === 'Accepted' ? 'text-success' : 'text-secondary'}"></i>
+            </div>
+            <div>
+              <p class="text-xs text-secondary font-medium uppercase tracking-wider">Your Response</p>
+              <p class="font-semibold text-foreground">${status}</p>
+            </div>
+          </div>
+          <button onclick="showRSVPModal('${status === 'Accepted' ? 'accept' : 'decline'}')" class="text-sm font-medium text-primary hover:underline cursor-pointer px-2">
+            Update
+          </button>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // Toast Notification System
+    function showToast(msg, type='success') {
+      document.getElementById('toast')?.remove();
+      const t = document.createElement('div');
+      t.id = 'toast';
+      
+      // Adjust position for mobile-first layout (top center)
+      t.className = `fixed top-6 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-foreground text-white px-5 py-3.5 rounded-2xl z-[200] transition-all duration-300 opacity-0 -translate-y-4 shadow-xl max-w-[90vw] w-max`;
+      
+      const icon = type === 'success' ? 'check-circle-2' : 'alert-circle';
+      const iconColor = type === 'success' ? 'text-success' : 'text-error';
+      
+      t.innerHTML = `
+        <i data-lucide="${icon}" class="size-5 ${iconColor}"></i>
+        <span class="font-medium text-sm">${msg}</span>
+      `;
+      
+      document.body.appendChild(t);
+      lucide.createIcons();
+      
+      requestAnimationFrame(() => {
+        t.classList.remove('opacity-0', '-translate-y-4');
+        t.classList.add('opacity-100', 'translate-y-0');
+      });
+      
+      setTimeout(() => {
+        t.classList.add('opacity-0', '-translate-y-4');
+        t.classList.remove('opacity-100', 'translate-y-0');
+        setTimeout(() => t.remove(), 300);
+      }, 3000);
+    }
+  </script>
+
+<script>
+// Fallback link handler (injected by ShaynaBuilder)
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Show alert if no modal exists
+      var modal = document.getElementById('page-not-found-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        console.log('Navigation prevented: ' + this.href);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ForeverUs - Digital Wedding Invitations</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" onload="window.lucideLoaded=true; if(window.initLucide) window.initLucide();"></script>
+<script>
+  window.initLucide = function() { if(window.lucide) lucide.createIcons(); };
+  document.addEventListener('DOMContentLoaded', function() { if(window.lucideLoaded) window.initLucide(); });
+</script>
+<style type="text/tailwindcss">
+  :root {
+    --primary: #165DFF;
+    --primary-hover: #0E4BD9;
+    --foreground: #080C1A;
+    --secondary: #6A7686;
+    --muted: #EFF2F7;
+    --border: #F3F4F3;
+    --card-grey: #F1F3F6;
+    --success: #30B22D;
+    --error: #ED6B60;
+    --warning: #FED71F;
+    --font-sans: 'Lexend Deca', sans-serif;
+  }
+  @theme inline {
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-foreground: var(--foreground);
+    --color-secondary: var(--secondary);
+    --color-muted: var(--muted);
+    --color-border: var(--border);
+    --color-card-grey: var(--card-grey);
+    --color-success: var(--success);
+    --color-error: var(--error);
+    --color-warning: var(--warning);
+    --font-sans: var(--font-sans);
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* Custom subtle gradient for hero */
+  .hero-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #EFF2F7 100%);
+  }
+</style>
+</head>
+<body class="font-sans bg-white text-foreground antialiased selection:bg-primary/20 selection:text-primary">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-border transition-all duration-300" id="navbar">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 h-20 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2 group">
+      <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+        <i data-lucide="heart-handshake" class="w-6 h-6 text-white"></i>
+      </div>
+      <span class="font-bold text-xl tracking-tight">ForeverUs</span>
+    </a>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#features" class="text-sm font-medium text-secondary hover:text-primary transition-colors">Features</a>
+      <a href="#templates" class="text-sm font-medium text-secondary hover:text-primary transition-colors">Templates</a>
+      <a href="#pricing" class="text-sm font-medium text-secondary hover:text-primary transition-colors">Pricing</a>
+    </div>
+
+    <!-- CTA & Mobile Toggle -->
+    <div class="flex items-center gap-4">
+      <button onclick="openModal('loginModal')" class="hidden md:block text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer">Log in</button>
+      <button onclick="openModal('signupModal')" class="hidden md:flex bg-primary text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-primary-hover transition-colors items-center gap-2 cursor-pointer shadow-sm shadow-primary/20">
+        Get Started <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+      <button onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-muted text-foreground cursor-pointer">
+        <i data-lucide="menu" class="w-5 h-5" id="menuIcon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-border absolute w-full shadow-xl">
+    <div class="flex flex-col p-5 gap-4">
+      <a href="#features" onclick="toggleMobileMenu()" class="text-base font-medium text-secondary hover:text-primary p-2 rounded-lg hover:bg-muted">Features</a>
+      <a href="#templates" onclick="toggleMobileMenu()" class="text-base font-medium text-secondary hover:text-primary p-2 rounded-lg hover:bg-muted">Templates</a>
+      <a href="#pricing" onclick="toggleMobileMenu()" class="text-base font-medium text-secondary hover:text-primary p-2 rounded-lg hover:bg-muted">Pricing</a>
+      <div class="h-px bg-border my-2"></div>
+      <button onclick="openModal('loginModal'); toggleMobileMenu()" class="w-full text-left text-base font-medium text-foreground p-2 rounded-lg hover:bg-muted cursor-pointer">Log in</button>
+      <button onclick="openModal('signupModal'); toggleMobileMenu()" class="w-full bg-primary text-white px-6 py-3 rounded-xl text-base font-bold hover:bg-primary-hover transition-colors text-center cursor-pointer">Get Started Free</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="pt-32 pb-20 lg:pt-40 lg:pb-28 px-5 md:px-8 hero-gradient overflow-hidden relative">
+  <!-- Decorative background elements -->
+  <div class="absolute top-20 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+  <div class="absolute bottom-10 right-10 w-80 h-80 bg-warning/10 rounded-full blur-3xl -z-10"></div>
+
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+    <div class="flex flex-col gap-6 text-center lg:text-left z-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-border w-fit mx-auto lg:mx-0 shadow-sm">
+        <span class="flex h-2 w-2 rounded-full bg-success"></span>
+        <span class="text-xs font-semibold text-secondary uppercase tracking-wider">New Templates Added</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
+        Share your love story with <span class="text-primary relative whitespace-nowrap">
+          digital elegance
+          <svg class="absolute w-full h-3 -bottom-1 left-0 text-primary/20" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="4" fill="transparent"/></svg>
+        </span>
+      </h1>
+      <p class="text-lg md:text-xl text-secondary leading-relaxed max-w-2xl mx-auto lg:mx-0">
+        Create stunning, eco-friendly wedding invitations in minutes. Track RSVPs instantly, manage guest lists effortlessly, and celebrate beautifully.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mt-2">
+        <button onclick="openModal('signupModal')" class="w-full sm:w-auto bg-primary text-white px-8 py-4 rounded-full text-base font-bold hover:bg-primary-hover transition-all hover:shadow-lg hover:shadow-primary/30 cursor-pointer flex items-center justify-center gap-2">
+          Create Your Invite <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </button>
+        <a href="#templates" class="w-full sm:w-auto bg-white text-foreground ring-1 ring-border px-8 py-4 rounded-full text-base font-bold hover:ring-primary hover:text-primary transition-all cursor-pointer text-center">
+          View Templates
+        </a>
+      </div>
+      
+      <!-- Social Proof -->
+      <div class="mt-8 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+        <div class="flex -space-x-3">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="User">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="User">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="User">
+          <div class="w-10 h-10 rounded-full border-2 border-white bg-muted flex items-center justify-center text-xs font-bold text-secondary">+2k</div>
+        </div>
+        <div class="text-sm text-secondary text-center sm:text-left">
+          <div class="flex items-center gap-1 justify-center sm:justify-start text-warning mb-0.5">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          Loved by 2,000+ happy couples
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Image/Mockup -->
+    <div class="relative z-10 mx-auto w-full max-w-md lg:max-w-none">
+      <div class="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-foreground/10 ring-1 ring-border bg-white p-2 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80" alt="Wedding Invitation Preview" class="w-full h-auto rounded-[1.5rem] object-cover aspect-[4/5]">
+        
+        <!-- Floating Badge -->
+        <div class="absolute top-8 -left-6 bg-white p-3 rounded-2xl shadow-xl ring-1 ring-border flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+          <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center">
+            <i data-lucide="check" class="w-5 h-5 text-success"></i>
+          </div>
+          <div>
+            <p class="text-xs text-secondary font-medium">Sarah RSVP'd</p>
+            <p class="text-sm font-bold text-foreground">Attending (+1)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section (Alternating) -->
+<section id="features" class="py-24 px-5 md:px-8 bg-white">
+  <div class="max-w-7xl mx-auto flex flex-col gap-24">
+    
+    <!-- Feature 1: Text Left, Image Right -->
+    <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+      <div class="flex-1 flex flex-col gap-6">
+        <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+          <i data-lucide="palette" class="w-6 h-6 text-primary"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Design that reflects your unique style</h2>
+        <p class="text-lg text-secondary leading-relaxed">
+          Choose from dozens of professionally designed templates. Customize colors, fonts, and layouts with our intuitive drag-and-drop builder. No design skills needed.
+        </p>
+        <ul class="flex flex-col gap-3 mt-2">
+          <li class="flex items-center gap-3 text-foreground font-medium">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary"></i> 50+ Premium Templates
+          </li>
+          <li class="flex items-center gap-3 text-foreground font-medium">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary"></i> Custom Photo Galleries
+          </li>
+          <li class="flex items-center gap-3 text-foreground font-medium">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary"></i> Mobile-Optimized Designs
+          </li>
+        </ul>
+      </div>
+      <div class="flex-1 w-full">
+        <div class="bg-card-grey rounded-[2rem] p-6 md:p-8 ring-1 ring-border relative">
+          <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&q=80" alt="Design Builder" class="rounded-xl shadow-lg w-full object-cover aspect-video">
+          <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl ring-1 ring-border flex items-center gap-4">
+            <div class="flex gap-2">
+              <div class="w-8 h-8 rounded-full bg-[#FDFBF7] ring-2 ring-border cursor-pointer"></div>
+              <div class="w-8 h-8 rounded-full bg-[#2C3E50] ring-2 ring-border cursor-pointer"></div>
+              <div class="w-8 h-8 rounded-full bg-[#D4AF37] ring-2 ring-primary cursor-pointer"></div>
+            </div>
+            <span class="text-sm font-semibold">Color Themes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 2: Image Left, Text Right -->
+    <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-20">
+      <div class="flex-1 flex flex-col gap-6">
+        <div class="w-12 h-12 bg-success/10 rounded-2xl flex items-center justify-center">
+          <i data-lucide="users" class="w-6 h-6 text-success"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Smart RSVP & Guest Management</h2>
+        <p class="text-lg text-secondary leading-relaxed">
+          Say goodbye to lost mail and messy spreadsheets. Track RSVPs in real-time, manage meal preferences, and send automated reminders to your guests.
+        </p>
+        <ul class="flex flex-col gap-3 mt-2">
+          <li class="flex items-center gap-3 text-foreground font-medium">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-success"></i> Real-time RSVP Tracking
+          </li>
+          <li class="flex items-center gap-3 text-foreground font-medium">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-success"></i> Dietary Requirement Collection
+          </li>
+          <li class="flex items-center gap-3 text-foreground font-medium">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-success"></i> Plus-One Management
+          </li>
+        </ul>
+      </div>
+      <div class="flex-1 w-full">
+        <div class="bg-muted rounded-[2rem] p-6 md:p-8 ring-1 ring-border">
+          <!-- Mockup Dashboard -->
+          <div class="bg-white rounded-xl shadow-sm ring-1 ring-border overflow-hidden">
+            <div class="p-4 border-b border-border flex justify-between items-center bg-card-grey">
+              <span class="font-semibold text-sm">Guest List Overview</span>
+              <span class="text-xs bg-success/10 text-success px-2 py-1 rounded-full font-medium">85% Responded</span>
+            </div>
+            <div class="p-4 flex flex-col gap-3">
+              <div class="flex items-center justify-between p-3 rounded-lg hover:bg-muted transition-colors">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">JD</div>
+                  <div>
+                    <p class="text-sm font-semibold">John Doe</p>
+                    <p class="text-xs text-secondary">Chicken • No allergies</p>
+                  </div>
+                </div>
+                <span class="text-xs font-medium bg-success/10 text-success px-2 py-1 rounded-full">Attending</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg hover:bg-muted transition-colors">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">AS</div>
+                  <div>
+                    <p class="text-sm font-semibold">Anna Smith</p>
+                    <p class="text-xs text-secondary">Awaiting response</p>
+                  </div>
+                </div>
+                <span class="text-xs font-medium bg-warning/10 text-warning px-2 py-1 rounded-full">Pending</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg hover:bg-muted transition-colors">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">MJ</div>
+                  <div>
+                    <p class="text-sm font-semibold">Mike Johnson</p>
+                    <p class="text-xs text-secondary">Regretfully declines</p>
+                  </div>
+                </div>
+                <span class="text-xs font-medium bg-error/10 text-error px-2 py-1 rounded-full">Declined</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Templates Grid Section -->
+<section id="templates" class="py-24 px-5 md:px-8 bg-muted">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Beautiful templates for every theme</h2>
+      <p class="text-lg text-secondary">Start with a stunning foundation and make it your own. All templates are fully responsive and look great on any device.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Template 1 -->
+      <div class="group cursor-pointer">
+        <div class="relative rounded-2xl overflow-hidden aspect-[3/4] mb-4 ring-1 ring-border shadow-sm group-hover:shadow-xl transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=600&q=80" alt="Classic Elegance" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <button class="bg-white text-foreground px-6 py-2.5 rounded-full font-bold text-sm hover:bg-primary hover:text-white transition-colors">Preview</button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-lg">Classic Elegance</h3>
+            <p class="text-sm text-secondary">Traditional • Floral</p>
+          </div>
+          <span class="text-xs font-medium bg-white px-2 py-1 rounded-md ring-1 ring-border">Free</span>
+        </div>
+      </div>
+
+      <!-- Template 2 -->
+      <div class="group cursor-pointer">
+        <div class="relative rounded-2xl overflow-hidden aspect-[3/4] mb-4 ring-1 ring-border shadow-sm group-hover:shadow-xl transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600&q=80" alt="Modern Minimalist" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <button class="bg-white text-foreground px-6 py-2.5 rounded-full font-bold text-sm hover:bg-primary hover:text-white transition-colors">Preview</button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-lg">Modern Minimalist</h3>
+            <p class="text-sm text-secondary">Clean • Typography</p>
+          </div>
+          <span class="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded-md">Premium</span>
+        </div>
+      </div>
+
+      <!-- Template 3 -->
+      <div class="group cursor-pointer">
+        <div class="relative rounded-2xl overflow-hidden aspect-[3/4] mb-4 ring-1 ring-border shadow-sm group-hover:shadow-xl transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80" alt="Rustic Charm" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <button class="bg-white text-foreground px-6 py-2.5 rounded-full font-bold text-sm hover:bg-primary hover:text-white transition-colors">Preview</button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-lg">Rustic Charm</h3>
+            <p class="text-sm text-secondary">Boho • Nature</p>
+          </div>
+          <span class="text-xs font-medium bg-white px-2 py-1 rounded-md ring-1 ring-border">Free</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-12 text-center">
+      <button class="bg-white text-foreground ring-1 ring-border px-8 py-3 rounded-full text-sm font-bold hover:ring-primary hover:text-primary transition-all cursor-pointer inline-flex items-center gap-2">
+        View All 50+ Templates <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-24 px-5 md:px-8 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Simple, transparent pricing</h2>
+      <p class="text-lg text-secondary">Choose the perfect plan for your special day. No hidden fees, cancel anytime.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
+      
+      <!-- Free Tier -->
+      <div class="bg-white rounded-3xl p-8 ring-1 ring-border shadow-sm flex flex-col h-full">
+        <div class="mb-6">
+          <h3 class="text-xl font-bold mb-2">Free</h3>
+          <p class="text-secondary text-sm h-10">Perfect for small, intimate gatherings.</p>
+        </div>
+        <div class="mb-6">
+          <span class="text-4xl font-extrabold">$0</span>
+          <span class="text-secondary">/forever</span>
+        </div>
+        <ul class="flex flex-col gap-4 mb-8 flex-1">
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-success shrink-0"></i>
+            <span>Up to 50 guests</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-success shrink-0"></i>
+            <span>Basic templates</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-success shrink-0"></i>
+            <span>Standard RSVP tracking</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-secondary opacity-50">
+            <i data-lucide="minus" class="w-5 h-5 shrink-0"></i>
+            <span>Custom domain</span>
+          </li>
+        </ul>
+        <button onclick="openModal('signupModal')" class="w-full bg-white text-foreground ring-1 ring-border py-3 rounded-xl font-bold hover:bg-muted transition-colors cursor-pointer">Get Started Free</button>
+      </div>
+
+      <!-- Essential Tier (Highlighted) -->
+      <div class="bg-foreground text-white rounded-3xl p-8 ring-1 ring-foreground shadow-xl flex flex-col h-full relative transform md:-translate-y-4">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+          Most Popular
+        </div>
+        <div class="mb-6">
+          <h3 class="text-xl font-bold mb-2">Essential</h3>
+          <p class="text-secondary text-sm h-10 text-white/70">Everything you need for the perfect wedding.</p>
+        </div>
+        <div class="mb-6">
+          <span class="text-4xl font-extrabold">$49</span>
+          <span class="text-white/70">/one-time</span>
+        </div>
+        <ul class="flex flex-col gap-4 mb-8 flex-1">
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-primary shrink-0"></i>
+            <span>Unlimited guests</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-primary shrink-0"></i>
+            <span>All premium templates</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-primary shrink-0"></i>
+            <span>Advanced RSVP & Meal tracking</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-primary shrink-0"></i>
+            <span>Email & SMS reminders</span>
+          </li>
+        </ul>
+        <button onclick="openModal('signupModal')" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary-hover transition-colors cursor-pointer">Choose Essential</button>
+      </div>
+
+      <!-- Premium Tier -->
+      <div class="bg-white rounded-3xl p-8 ring-1 ring-border shadow-sm flex flex-col h-full">
+        <div class="mb-6">
+          <h3 class="text-xl font-bold mb-2">Premium</h3>
+          <p class="text-secondary text-sm h-10">For couples who want the ultimate experience.</p>
+        </div>
+        <div class="mb-6">
+          <span class="text-4xl font-extrabold">$99</span>
+          <span class="text-secondary">/one-time</span>
+        </div>
+        <ul class="flex flex-col gap-4 mb-8 flex-1">
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-success shrink-0"></i>
+            <span>Everything in Essential</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-success shrink-0"></i>
+            <span>Custom domain (yournames.com)</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-success shrink-0"></i>
+            <span>Priority 24/7 support</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <i data-lucide="check" class="w-5 h-5 text-success shrink-0"></i>
+            <span>Custom design assistance</span>
+          </li>
+        </ul>
+        <button onclick="openModal('signupModal')" class="w-full bg-white text-foreground ring-1 ring-border py-3 rounded-xl font-bold hover:bg-muted transition-colors cursor-pointer">Choose Premium</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-border pt-16 pb-8 px-5 md:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+      <div class="md:col-span-1">
+        <a href="#" class="flex items-center gap-2 mb-4">
+          <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <i data-lucide="heart-handshake" class="w-5 h-5 text-white"></i>
+          </div>
+          <span class="font-bold text-lg tracking-tight">ForeverUs</span>
+        </a>
+        <p class="text-sm text-secondary mb-6">Making wedding planning beautiful, simple, and stress-free for modern couples.</p>
+        <div class="flex items-center gap-4 text-secondary">
+          <a href="#" class="hover:text-primary transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+          <a href="#" class="hover:text-primary transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+          <a href="#" class="hover:text-primary transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+        </div>
+      </div>
+      
+      <div>
+        <h4 class="font-bold mb-4">Product</h4>
+        <ul class="flex flex-col gap-3 text-sm text-secondary">
+          <li><a href="#features" class="hover:text-primary transition-colors">Features</a></li>
+          <li><a href="#templates" class="hover:text-primary transition-colors">Templates</a></li>
+          <li><a href="#pricing" class="hover:text-primary transition-colors">Pricing</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Examples</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-bold mb-4">Resources</h4>
+        <ul class="flex flex-col gap-3 text-sm text-secondary">
+          <li><a href="#" class="hover:text-primary transition-colors">Help Center</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Wedding Guides</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Blog</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Contact Support</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-bold mb-4">Legal</h4>
+        <ul class="flex flex-col gap-3 text-sm text-secondary">
+          <li><a href="#" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-secondary">
+      <p>&copy; 2024 ForeverUs. All rights reserved.</p>
+      <div class="flex items-center gap-2">
+        <span>Made with</span> <i data-lucide="heart" class="w-4 h-4 text-error fill-current"></i> <span>for couples everywhere</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Modals -->
+
+<!-- Sign Up Modal -->
+<div id="signupModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+  <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="signupModalContent">
+    <div class="p-6 md:p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold">Create Account</h3>
+        <button onclick="closeModal('signupModal')" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted text-secondary cursor-pointer transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <form onsubmit="event.preventDefault(); handleAuth('signup');" class="flex flex-col gap-4">
+        <div>
+          <label class="block text-sm font-medium text-secondary mb-1.5">Full Name</label>
+          <input type="text" id="inputSignupName" placeholder="Jane Doe" class="w-full px-4 py-3 rounded-xl bg-muted border border-transparent focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-secondary mb-1.5">Email Address</label>
+          <input type="email" id="inputSignupEmail" placeholder="jane@example.com" class="w-full px-4 py-3 rounded-xl bg-muted border border-transparent focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-secondary mb-1.5">Password</label>
+          <input type="password" id="inputSignupPassword" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-muted border border-transparent focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" required>
+        </div>
+        
+        <button type="submit" class="w-full bg-primary text-white py-3.5 rounded-xl font-bold hover:bg-primary-hover transition-colors mt-2 cursor-pointer">
+          Sign Up Free
+        </button>
+      </form>
+      
+      <p class="text-center text-sm text-secondary mt-6">
+        Already have an account? <button onclick="switchModal('signupModal', 'loginModal')" class="text-primary font-semibold hover:underline cursor-pointer">Log in</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Log In Modal -->
+<div id="loginModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+  <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="loginModalContent">
+    <div class="p-6 md:p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold">Welcome Back</h3>
+        <button onclick="closeModal('loginModal')" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted text-secondary cursor-pointer transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <form onsubmit="event.preventDefault(); handleAuth('login');" class="flex flex-col gap-4">
+        <div>
+          <label class="block text-sm font-medium text-secondary mb-1.5">Email Address</label>
+          <input type="email" id="inputLoginEmail" placeholder="jane@example.com" class="w-full px-4 py-3 rounded-xl bg-muted border border-transparent focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" required>
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="block text-sm font-medium text-secondary">Password</label>
+            <a href="#" class="text-xs text-primary hover:underline">Forgot?</a>
+          </div>
+          <input type="password" id="inputLoginPassword" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-muted border border-transparent focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" required>
+        </div>
+        
+        <button type="submit" class="w-full bg-primary text-white py-3.5 rounded-xl font-bold hover:bg-primary-hover transition-colors mt-2 cursor-pointer">
+          Log In
+        </button>
+      </form>
+      
+      <p class="text-center text-sm text-secondary mt-6">
+        Don't have an account? <button onclick="switchModal('loginModal', 'signupModal')" class="text-primary font-semibold hover:underline cursor-pointer">Sign up</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mobile Menu Toggle
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('menuIcon');
+    
+    if (menu.classList.contains('hidden')) {
+      menu.classList.remove('hidden');
+      icon.setAttribute('data-lucide', 'x');
+    } else {
+      menu.classList.add('hidden');
+      icon.setAttribute('data-lucide', 'menu');
+    }
+    lucide.createIcons();
+  }
+
+  // Navbar Scroll Effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 10) {
+      nav.classList.add('shadow-sm');
+    } else {
+      nav.classList.remove('shadow-sm');
+    }
+  });
+
+  // Modal Logic
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    const content = document.getElementById(modalId + 'Content');
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Trigger reflow
+    void modal.offsetWidth;
+    
+    modal.classList.remove('opacity-0');
+    content.classList.remove('scale-95');
+    content.classList.add('scale-100');
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    const content = document.getElementById(modalId + 'Content');
+    
+    modal.classList.add('opacity-0');
+    content.classList.remove('scale-100');
+    content.classList.add('scale-95');
+    
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }, 300);
+  }
+
+  function switchModal(closeId, openId) {
+    closeModal(closeId);
+    setTimeout(() => {
+      openModal(openId);
+    }, 300);
+  }
+
+  // Close modal on outside click
+  document.querySelectorAll('[id$="Modal"]').forEach(modal => {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal(this.id);
+      }
+    });
+  });
+
+  // Form Handler (Dummy)
+  function handleAuth(type) {
+    const btn = event.target.querySelector('button[type="submit"]');
+    const originalText = btn.innerText;
+    btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto"></i>';
+    lucide.createIcons();
+    
+    setTimeout(() => {
+      btn.innerText = originalText;
+      closeModal(type + 'Modal');
+      showToast(type === 'signup' ? 'Account created successfully!' : 'Logged in successfully!');
+    }, 1000);
+  }
+
+  // Toast Notification
+  function showToast(msg, type='success') {
+    document.getElementById('toast')?.remove();
+    const t = document.createElement('div');
+    t.id = 'toast';
+    t.className = `fixed bottom-4 right-4 bg-foreground text-white px-6 py-3 rounded-xl z-[200] transition-all duration-300 opacity-0 translate-y-[20px] shadow-xl flex items-center gap-3 font-medium`;
+    
+    const icon = type === 'success' ? 'check-circle-2' : 'alert-circle';
+    const iconColor = type === 'success' ? 'text-success' : 'text-error';
+    
+    t.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5 ${iconColor}"></i> ${msg}`;
+    document.body.appendChild(t);
+    lucide.createIcons();
+    
+    requestAnimationFrame(() => {
+      t.classList.remove('opacity-0', 'translate-y-[20px]');
+      t.classList.add('opacity-100', 'translate-y-0');
+    });
+    
+    setTimeout(() => {
+      t.classList.add('opacity-0', 'translate-y-[20px]');
+      t.classList.remove('opacity-100', 'translate-y-0');
+      setTimeout(() => t.remove(), 300);
+    }, 3000);
+  }
+</script>
+
+<script>
+// Fallback link handler (injected by ShaynaBuilder)
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Show alert if no modal exists
+      var modal = document.getElementById('page-not-found-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        console.log('Navigation prevented: ' + this.href);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

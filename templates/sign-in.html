@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In - Wedding Invitations</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" onload="window.lucideLoaded=true; if(window.initLucide) window.initLucide();"></script>
+<script>
+  window.initLucide = function() { if(window.lucide) lucide.createIcons(); };
+  document.addEventListener('DOMContentLoaded', function() { if(window.lucideLoaded) window.initLucide(); });
+</script>
+<style type="text/tailwindcss">
+  :root {
+    --primary: #165DFF;
+    --primary-hover: #0E4BD9;
+    --foreground: #080C1A;
+    --secondary: #6A7686;
+    --muted: #EFF2F7;
+    --border: #F3F4F3;
+    --card-grey: #F1F3F6;
+    --success: #30B22D;
+    --error: #ED6B60;
+    --warning: #FED71F;
+    --font-sans: 'Lexend Deca', sans-serif;
+  }
+  @theme inline {
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-foreground: var(--foreground);
+    --color-secondary: var(--secondary);
+    --color-muted: var(--muted);
+    --color-border: var(--border);
+    --color-card-grey: var(--card-grey);
+    --color-success: var(--success);
+    --color-error: var(--error);
+    --color-warning: var(--warning);
+    --font-sans: var(--font-sans);
+  }
+  
+  /* Custom checkbox styling */
+  input[type="checkbox"] {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 1px solid var(--border);
+    border-radius: 0.25em;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+  }
+  input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em white;
+    background-color: transform;
+    transform-origin: center;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+  input[type="checkbox"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+  input[type="checkbox"]:checked::before {
+    transform: scale(1);
+  }
+</style>
+</head>
+<body class="font-sans bg-white min-h-screen text-foreground">
+
+<div class="min-h-screen flex w-full">
+  
+  <!-- Left Side: Hero Image (Hidden on mobile, visible on desktop) -->
+  <div class="hidden lg:flex lg:w-1/2 relative bg-muted items-center justify-center overflow-hidden">
+    <!-- High-quality wedding placeholder image -->
+    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop" alt="Wedding Couple" class="absolute inset-0 w-full h-full object-cover">
+    
+    <!-- Gradient overlay for better text readability if needed, and premium feel -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+    
+    <!-- Optional overlay content -->
+    <div class="absolute bottom-12 left-12 right-12 text-white">
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl max-w-lg">
+        <i data-lucide="quote" class="size-8 text-white/60 mb-4"></i>
+        <h2 class="text-3xl font-bold mb-3 leading-tight">Create unforgettable digital experiences for your special day.</h2>
+        <p class="text-white/80 text-lg">Manage your guest list, track RSVPs, and design beautiful invitations all in one place.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Sign In Form -->
+  <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-white relative">
+    
+    <!-- Decorative background element -->
+    <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+    
+    <div class="w-full max-w-[420px] flex flex-col z-10">
+      
+      <!-- Header -->
+      <div class="flex flex-col items-center sm:items-start text-center sm:text-left mb-10">
+        <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+          <i data-lucide="mail-open" class="size-6 text-primary"></i>
+        </div>
+        <h1 class="text-3xl font-bold mb-2">Welcome back</h1>
+        <p class="text-secondary">Please enter your details to sign in to your account.</p>
+      </div>
+
+      <!-- Form -->
+      <form class="flex flex-col gap-5" onsubmit="handleSignIn(event)">
+        
+        <!-- Email Input -->
+        <div class="flex flex-col gap-2">
+          <label for="inputEmail" class="text-sm font-semibold text-foreground">Email address</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <i data-lucide="mail" class="size-5 text-secondary"></i>
+            </div>
+            <input 
+              type="email" 
+              id="inputEmail" 
+              placeholder="name@example.com" 
+              class="w-full pl-11 pr-4 py-3.5 bg-white border border-border rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all text-foreground placeholder:text-secondary/60"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <label for="inputPassword" class="text-sm font-semibold text-foreground">Password</label>
+            <a href="#" class="text-sm font-semibold text-primary hover:text-primary-hover transition-colors">Forgot password?</a>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <i data-lucide="lock" class="size-5 text-secondary"></i>
+            </div>
+            <input 
+              type="password" 
+              id="inputPassword" 
+              placeholder="••••••••" 
+              class="w-full pl-11 pr-12 py-3.5 bg-white border border-border rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all text-foreground placeholder:text-secondary/60"
+              required
+            >
+            <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer text-secondary hover:text-foreground transition-colors">
+              <i data-lucide="eye" id="eyeIcon" class="size-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="flex items-center gap-3 mt-1 mb-2">
+          <input type="checkbox" id="inputRemember">
+          <label for="inputRemember" class="text-sm font-medium text-secondary cursor-pointer select-none">Remember me for 30 days</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full py-3.5 bg-primary text-white rounded-xl font-bold text-base hover:bg-primary-hover hover:shadow-lg hover:shadow-primary/20 transition-all cursor-pointer mt-2 flex items-center justify-center gap-2 group">
+          <span>Sign In</span>
+          <i data-lucide="arrow-right" class="size-4 group-hover:translate-x-1 transition-transform"></i>
+        </button>
+        
+        <!-- Social Login Divider -->
+        <div class="flex items-center gap-4 my-4">
+          <div class="flex-1 h-px bg-border"></div>
+          <span class="text-sm text-secondary font-medium">OR</span>
+          <div class="flex-1 h-px bg-border"></div>
+        </div>
+        
+        <!-- Social Login Button (Example) -->
+        <button type="button" class="w-full py-3.5 bg-white border border-border text-foreground rounded-xl font-semibold text-base hover:bg-muted transition-all cursor-pointer flex items-center justify-center gap-3">
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Sign in with Google
+        </button>
+
+      </form>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center">
+        <p class="text-sm text-secondary">
+          Don't have an account? 
+          <a href="#" class="font-semibold text-primary hover:text-primary-hover transition-colors">Sign up for free</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle password visibility
+  function togglePassword() {
+    const passwordInput = document.getElementById('inputPassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      eyeIcon.setAttribute('data-lucide', 'eye-off');
+    } else {
+      passwordInput.type = 'password';
+      eyeIcon.setAttribute('data-lucide', 'eye');
+    }
+    lucide.createIcons();
+  }
+
+  // Handle form submission
+  function handleSignIn(event) {
+    event.preventDefault();
+    const email = document.getElementById('inputEmail').value;
+    const password = document.getElementById('inputPassword').value;
+    
+    if (email && password) {
+      showToast('Signing in...', 'success');
+      // Simulate API call
+      setTimeout(() => {
+        showToast('Successfully signed in!', 'success');
+      }, 1500);
+    } else {
+      showToast('Please fill in all fields', 'error');
+    }
+  }
+
+  // Toast notification system
+  function showToast(msg, type='success') {
+    document.getElementById('toast')?.remove();
+    const t = document.createElement('div');
+    t.id = 'toast';
+    
+    const bgColor = type === 'success' ? 'bg-foreground' : 'bg-error';
+    const icon = type === 'success' ? 'check-circle-2' : 'alert-circle';
+    
+    t.className = `fixed top-6 right-6 ${bgColor} text-white px-5 py-3.5 rounded-xl z-50 transition-all duration-300 opacity-0 translate-y-[-20px] shadow-xl flex items-center gap-3 font-medium`;
+    t.innerHTML = `<i data-lucide="${icon}" class="size-5"></i> <span>${msg}</span>`;
+    
+    document.body.appendChild(t);
+    lucide.createIcons();
+    
+    requestAnimationFrame(() => {
+      t.classList.remove('opacity-0', 'translate-y-[-20px]');
+      t.classList.add('opacity-100', 'translate-y-0');
+    });
+    
+    setTimeout(() => {
+      t.classList.add('opacity-0', 'translate-y-[-20px]');
+      t.classList.remove('opacity-100', 'translate-y-0');
+      setTimeout(() => t.remove(), 300);
+    }, 3000);
+  }
+</script>
+
+<script>
+// Fallback link handler (injected by ShaynaBuilder)
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Show alert if no modal exists
+      var modal = document.getElementById('page-not-found-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        console.log('Navigation prevented: ' + this.href);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

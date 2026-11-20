@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Invitation Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" onload="window.lucideLoaded=true; if(window.initLucide) window.initLucide();"></script>
+<script>
+  window.initLucide = function() { if(window.lucide) lucide.createIcons(); };
+  document.addEventListener('DOMContentLoaded', function() { if(window.lucideLoaded) window.initLucide(); });
+</script>
+<style type="text/tailwindcss">
+  :root {
+    --primary: #165DFF;
+    --primary-hover: #0E4BD9;
+    --foreground: #080C1A;
+    --secondary: #6A7686;
+    --muted: #EFF2F7;
+    --border: #F3F4F3;
+    --card-grey: #F1F3F6;
+    --success: #30B22D;
+    --error: #ED6B60;
+    --warning: #FED71F;
+    --font-sans: 'Lexend Deca', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+  }
+  @theme inline {
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-foreground: var(--foreground);
+    --color-secondary: var(--secondary);
+    --color-muted: var(--muted);
+    --color-border: var(--border);
+    --color-card-grey: var(--card-grey);
+    --color-success: var(--success);
+    --color-error: var(--error);
+    --color-warning: var(--warning);
+    --font-sans: var(--font-sans);
+    --font-serif: var(--font-serif);
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* Custom scrollbar for form area */
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--border); border-radius: 10px; }
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb { background-color: var(--secondary); }
+</style>
+</head>
+<body class="font-sans bg-muted h-screen flex flex-col overflow-hidden text-foreground">
+
+  <!-- Top Navigation / Header -->
+  <header class="h-[70px] bg-white border-b border-border flex items-center justify-between px-6 shrink-0 z-10">
+    <div class="flex items-center gap-4">
+      <button class="size-10 flex items-center justify-center rounded-full hover:bg-muted transition-colors cursor-pointer" title="Back to Templates">
+        <i data-lucide="arrow-left" class="size-5 text-secondary"></i>
+      </button>
+      <div>
+        <h1 class="font-bold text-lg leading-tight">Edit Invitation</h1>
+        <p class="text-xs text-secondary">Template: Classic Floral</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <button class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full ring-1 ring-border font-medium hover:bg-muted transition-colors cursor-pointer">
+        <i data-lucide="eye" class="size-4"></i>
+        <span>Preview Mode</span>
+      </button>
+      <button onclick="saveInvitation()" class="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-full font-bold hover:bg-primary-hover transition-colors cursor-pointer shadow-sm shadow-primary/30">
+        <i data-lucide="save" class="size-4"></i>
+        <span>Save & Continue</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Split Layout -->
+  <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+    
+    <!-- LEFT SECTION: Form Area -->
+    <section class="w-full lg:w-[55%] xl:w-[50%] h-full overflow-y-auto custom-scrollbar bg-card-grey p-4 md:p-8">
+      <div class="max-w-2xl mx-auto space-y-6 pb-20 lg:pb-0">
+        
+        <!-- Section: Couple's Names -->
+        <div class="bg-white rounded-2xl border border-border p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-6 border-b border-border pb-4">
+            <div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <i data-lucide="heart" class="size-5"></i>
+            </div>
+            <h2 class="font-bold text-lg">The Couple</h2>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="inputGroomName" class="block text-sm font-medium text-secondary mb-2">Groom's Name</label>
+              <input type="text" id="inputGroomName" placeholder="e.g. James" class="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" value="James">
+            </div>
+            <div>
+              <label for="inputBrideName" class="block text-sm font-medium text-secondary mb-2">Bride's Name</label>
+              <input type="text" id="inputBrideName" placeholder="e.g. Sarah" class="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" value="Sarah">
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Event Details -->
+        <div class="bg-white rounded-2xl border border-border p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-6 border-b border-border pb-4">
+            <div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <i data-lucide="calendar" class="size-5"></i>
+            </div>
+            <h2 class="font-bold text-lg">Date & Time</h2>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="inputDate" class="block text-sm font-medium text-secondary mb-2">Event Date</label>
+              <input type="date" id="inputDate" class="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" value="2024-09-15">
+            </div>
+            <div>
+              <label for="inputTime" class="block text-sm font-medium text-secondary mb-2">Event Time</label>
+              <input type="time" id="inputTime" class="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" value="15:00">
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Location -->
+        <div class="bg-white rounded-2xl border border-border p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-6 border-b border-border pb-4">
+            <div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <i data-lucide="map-pin" class="size-5"></i>
+            </div>
+            <h2 class="font-bold text-lg">Location</h2>
+          </div>
+          <div class="space-y-5">
+            <div>
+              <label for="inputVenue" class="block text-sm font-medium text-secondary mb-2">Venue Name</label>
+              <input type="text" id="inputVenue" placeholder="e.g. The Grand Botanical Gardens" class="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" value="The Grand Botanical Gardens">
+            </div>
+            <div>
+              <label for="inputAddress" class="block text-sm font-medium text-secondary mb-2">Full Address</label>
+              <textarea id="inputAddress" rows="2" placeholder="123 Garden Way, Cityville, ST 12345" class="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none">123 Garden Way, Cityville, ST 12345</textarea>
+            </div>
+            <div>
+              <label for="inputMapLink" class="block text-sm font-medium text-secondary mb-2">Google Maps Link (Optional)</label>
+              <div class="relative">
+                <i data-lucide="link" class="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-secondary"></i>
+                <input type="url" id="inputMapLink" placeholder="https://maps.google.com/..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Photo Gallery -->
+        <div class="bg-white rounded-2xl border border-border p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-6 border-b border-border pb-4">
+            <div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <i data-lucide="image" class="size-5"></i>
+            </div>
+            <h2 class="font-bold text-lg">Photo Gallery</h2>
+          </div>
+          
+          <div class="border-2 border-dashed border-border rounded-2xl p-8 text-center hover:bg-muted/50 transition-colors cursor-pointer group" onclick="document.getElementById('fileUpload').click()">
+            <input type="file" id="fileUpload" class="hidden" multiple accept="image/*">
+            <div class="size-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <i data-lucide="upload-cloud" class="size-7 text-primary"></i>
+            </div>
+            <p class="font-semibold text-foreground mb-1">Click to upload or drag and drop</p>
+            <p class="text-sm text-secondary">SVG, PNG, JPG or GIF (max. 5MB)</p>
+          </div>
+
+          <!-- Uploaded Photos Preview (Static for demo) -->
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-4">
+            <div class="aspect-square rounded-xl overflow-hidden relative group">
+              <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=200&h=200&fit=crop" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <button class="size-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-error text-white transition-colors cursor-pointer"><i data-lucide="trash-2" class="size-4"></i></button>
+              </div>
+            </div>
+            <div class="aspect-square rounded-xl overflow-hidden relative group">
+              <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=200&h=200&fit=crop" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <button class="size-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-error text-white transition-colors cursor-pointer"><i data-lucide="trash-2" class="size-4"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Notes / Quotes -->
+        <div class="bg-white rounded-2xl border border-border p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-6 border-b border-border pb-4">
+            <div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <i data-lucide="message-square" class="size-5"></i>
+            </div>
+            <h2 class="font-bold text-lg">Personal Note or Quote</h2>
+          </div>
+          <div>
+            <label for="inputQuote" class="block text-sm font-medium text-secondary mb-2">Message</label>
+            <textarea id="inputQuote" rows="3" placeholder="We can't wait to celebrate with you!" class="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none">We can't wait to celebrate with you!</textarea>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RIGHT SECTION: Live Preview -->
+    <section class="hidden lg:flex w-[45%] xl:w-[50%] h-full bg-white border-l border-border flex-col relative">
+      <!-- Preview Header -->
+      <div class="h-14 border-b border-border flex items-center justify-between px-6 bg-white/80 backdrop-blur-sm absolute top-0 left-0 right-0 z-10">
+        <div class="flex items-center gap-2 text-sm font-medium text-secondary">
+          <i data-lucide="smartphone" class="size-4"></i>
+          <span>Live Preview</span>
+        </div>
+        <div class="flex gap-2">
+          <button class="size-8 rounded-lg bg-muted flex items-center justify-center text-foreground"><i data-lucide="smartphone" class="size-4"></i></button>
+          <button class="size-8 rounded-lg hover:bg-muted flex items-center justify-center text-secondary transition-colors"><i data-lucide="monitor" class="size-4"></i></button>
+        </div>
+      </div>
+
+      <!-- Preview Container (Sticky/Centered) -->
+      <div class="flex-1 overflow-y-auto custom-scrollbar flex items-center justify-center p-8 pt-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-card-grey">
+        
+        <!-- The Invitation Card -->
+        <div class="w-full max-w-[380px] bg-white rounded-[2rem] shadow-2xl overflow-hidden relative border border-border/50 transition-all duration-300" id="previewCard">
+          
+          <!-- Decorative Header Image -->
+          <div class="h-48 w-full relative">
+            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&h=400&fit=crop" class="w-full h-full object-cover opacity-90">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white"></div>
+          </div>
+
+          <!-- Card Content -->
+          <div class="px-8 pb-12 pt-4 text-center flex flex-col items-center relative z-10">
+            
+            <p class="text-xs tracking-[0.2em] text-secondary uppercase mb-6">Together with their families</p>
+            
+            <!-- Names -->
+            <div class="font-serif text-4xl text-foreground mb-8 leading-tight">
+              <span id="previewGroomName">James</span>
+              <span class="block text-2xl text-primary/60 my-2 italic">&</span>
+              <span id="previewBrideName">Sarah</span>
+            </div>
+
+            <p class="text-sm text-secondary mb-8">invite you to celebrate their wedding</p>
+
+            <!-- Date & Time -->
+            <div class="mb-8">
+              <p class="font-bold text-foreground tracking-widest uppercase text-sm mb-1" id="previewDateDisplay">SEPTEMBER 15, 2024</p>
+              <p class="text-secondary text-sm" id="previewTimeDisplay">AT 3:00 PM</p>
+            </div>
+
+            <!-- Divider -->
+            <div class="w-12 h-px bg-border my-6"></div>
+
+            <!-- Location -->
+            <div class="mb-8">
+              <p class="font-bold text-foreground mb-1" id="previewVenue">The Grand Botanical Gardens</p>
+              <p class="text-secondary text-sm max-w-[250px] mx-auto leading-relaxed" id="previewAddress">123 Garden Way, Cityville, ST 12345</p>
+            </div>
+
+            <!-- Quote -->
+            <p class="font-serif italic text-secondary text-lg mt-4" id="previewQuote">"We can't wait to celebrate with you!"</p>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Preview Toggle Button (Visible only on small screens) -->
+  <button class="lg:hidden fixed bottom-6 right-6 size-14 bg-foreground text-white rounded-full shadow-xl flex items-center justify-center z-50 cursor-pointer" onclick="toggleMobilePreview()">
+    <i data-lucide="eye" class="size-6"></i>
+  </button>
+
+  <!-- Mobile Preview Modal -->
+  <div id="mobilePreviewModal" class="fixed inset-0 bg-black/90 z-[100] hidden flex-col">
+    <div class="flex items-center justify-between p-4 border-b border-white/10 text-white">
+      <span class="font-medium">Preview</span>
+      <button onclick="toggleMobilePreview()" class="size-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer">
+        <i data-lucide="x" class="size-5"></i>
+      </button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4 flex items-center justify-center" id="mobilePreviewContainer">
+      <!-- The preview card will be cloned here via JS when opened -->
+    </div>
+  </div>
+
+<script>
+  // Real-time Preview Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputs = {
+      groom: document.getElementById('inputGroomName'),
+      bride: document.getElementById('inputBrideName'),
+      date: document.getElementById('inputDate'),
+      time: document.getElementById('inputTime'),
+      venue: document.getElementById('inputVenue'),
+      address: document.getElementById('inputAddress'),
+      quote: document.getElementById('inputQuote')
+    };
+
+    const previews = {
+      groom: document.getElementById('previewGroomName'),
+      bride: document.getElementById('previewBrideName'),
+      dateDisplay: document.getElementById('previewDateDisplay'),
+      timeDisplay: document.getElementById('previewTimeDisplay'),
+      venue: document.getElementById('previewVenue'),
+      address: document.getElementById('previewAddress'),
+      quote: document.getElementById('previewQuote')
+    };
+
+    // Helper to format date
+    const formatDate = (dateString) => {
+      if (!dateString) return 'DATE TBD';
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const date = new Date(dateString);
+      // Adjust for timezone issues if needed, simple approach here
+      return date.toLocaleDateString('en-US', options).toUpperCase();
+    };
+
+    // Helper to format time
+    const formatTime = (timeString) => {
+      if (!timeString) return 'TIME TBD';
+      const [hourString, minute] = timeString.split(':');
+      let hour = parseInt(hourString);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      hour = hour % 12;
+      hour = hour ? hour : 12; // the hour '0' should be '12'
+      return `AT ${hour}:${minute} ${ampm}`;
+    };
+
+    const updatePreview = () => {
+      previews.groom.textContent = inputs.groom.value || 'Groom';
+      previews.bride.textContent = inputs.bride.value || 'Bride';
+      previews.dateDisplay.textContent = formatDate(inputs.date.value);
+      previews.timeDisplay.textContent = formatTime(inputs.time.value);
+      previews.venue.textContent = inputs.venue.value || 'Venue Name';
+      previews.address.textContent = inputs.address.value || 'Venue Address';
+      
+      if (inputs.quote.value) {
+        previews.quote.textContent = `"${inputs.quote.value}"`;
+        previews.quote.style.display = 'block';
+      } else {
+        previews.quote.style.display = 'none';
+      }
+    };
+
+    // Attach listeners
+    Object.values(inputs).forEach(input => {
+      if(input) input.addEventListener('input', updatePreview);
+    });
+
+    // Initial update
+    updatePreview();
+  });
+
+  // Save Action
+  function saveInvitation() {
+    showToast('Invitation saved successfully!', 'success');
+  }
+
+  // Toast Notification System
+  function showToast(msg, type='success') {
+    document.getElementById('toast')?.remove();
+    const t = document.createElement('div');
+    t.id = 'toast';
+    const bgClass = type === 'success' ? 'bg-foreground' : 'bg-error';
+    t.className = `fixed bottom-6 left-1/2 -translate-x-1/2 ${bgClass} text-white px-6 py-3 rounded-full shadow-xl z-[150] transition-all duration-300 opacity-0 translate-y-[20px] flex items-center gap-2 font-medium`;
+    
+    const icon = type === 'success' ? 'check-circle-2' : 'alert-circle';
+    t.innerHTML = `<i data-lucide="${icon}" class="size-5"></i><span>${msg}</span>`;
+    
+    document.body.appendChild(t);
+    lucide.createIcons();
+    
+    requestAnimationFrame(() => {
+      t.classList.remove('opacity-0', 'translate-y-[20px]');
+      t.classList.add('opacity-100', 'translate-y-0');
+    });
+    
+    setTimeout(() => {
+      t.classList.add('opacity-0', 'translate-y-[20px]');
+      t.classList.remove('opacity-100', 'translate-y-0');
+      setTimeout(() => t.remove(), 300);
+    }, 3000);
+  }
+
+  // Mobile Preview Toggle
+  function toggleMobilePreview() {
+    const modal = document.getElementById('mobilePreviewModal');
+    const container = document.getElementById('mobilePreviewContainer');
+    const originalCard = document.getElementById('previewCard');
+    
+    if (modal.classList.contains('hidden')) {
+      // Open
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      // Clone the current state of the card
+      container.innerHTML = '';
+      const clone = originalCard.cloneNode(true);
+      clone.id = 'mobilePreviewCardClone';
+      container.appendChild(clone);
+    } else {
+      // Close
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      container.innerHTML = '';
+    }
+  }
+</script>
+
+<script>
+// Fallback link handler (injected by ShaynaBuilder)
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Show alert if no modal exists
+      var modal = document.getElementById('page-not-found-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        console.log('Navigation prevented: ' + this.href);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

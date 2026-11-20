@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Invitation Dashboard - Templates</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" onload="window.lucideLoaded=true; if(window.initLucide) window.initLucide();"></script>
+<script>
+  window.initLucide = function() { if(window.lucide) lucide.createIcons(); };
+  document.addEventListener('DOMContentLoaded', function() { if(window.lucideLoaded) window.initLucide(); });
+</script>
+<style type="text/tailwindcss">
+  :root {
+    --primary: #165DFF;
+    --primary-hover: #0E4BD9;
+    --foreground: #080C1A;
+    --secondary: #6A7686;
+    --muted: #EFF2F7;
+    --border: #F3F4F3;
+    --card-grey: #F1F3F6;
+    --success: #30B22D;
+    --error: #ED6B60;
+    --warning: #FED71F;
+    --font-sans: 'Lexend Deca', sans-serif;
+  }
+  @theme inline {
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-foreground: var(--foreground);
+    --color-secondary: var(--secondary);
+    --color-muted: var(--muted);
+    --color-border: var(--border);
+    --color-card-grey: var(--card-grey);
+    --color-success: var(--success);
+    --color-error: var(--error);
+    --color-warning: var(--warning);
+    --font-sans: var(--font-sans);
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</head>
+<body class="font-sans bg-muted min-h-screen">
+
+<!-- Sidebar Overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/80 z-40 lg:hidden hidden" onclick="toggleSidebar()"></div>
+
+<div class="flex h-screen overflow-hidden">
+  <!-- Sidebar -->
+  <aside id="sidebar" class="flex flex-col w-[280px] h-screen fixed left-0 z-50 bg-white border-r border-border transform -translate-x-full lg:translate-x-0 transition-transform">
+    <div class="flex items-center justify-between border-b border-border h-[90px] px-5 gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-9 bg-primary rounded-xl flex items-center justify-center shadow-sm shadow-primary/30">
+          <i data-lucide="mail-open" class="w-5 h-5 text-white"></i>
+        </div>
+        <h1 class="font-bold text-xl tracking-tight">EvitePro</h1>
+      </div>
+      <button onclick="toggleSidebar()" class="lg:hidden size-11 flex bg-white rounded-xl items-center justify-center ring-1 ring-border cursor-pointer">
+        <i data-lucide="x" class="size-6 text-secondary"></i>
+      </button>
+    </div>
+    <nav class="flex flex-col p-5 gap-6 overflow-y-auto flex-1">
+      <div class="flex flex-col gap-4">
+        <h3 class="font-medium text-xs text-secondary uppercase tracking-wider">Menu</h3>
+        <div class="flex flex-col gap-1">
+          <a href="#" class="group active cursor-pointer">
+            <div class="flex items-center rounded-xl p-3.5 gap-3 group-[.active]:bg-primary/10 hover:bg-muted transition-all">
+              <i data-lucide="layout-grid" class="size-5 text-secondary group-[.active]:text-primary"></i>
+              <span class="font-medium text-secondary group-[.active]:font-semibold group-[.active]:text-primary">Templates</span>
+            </div>
+          </a>
+          <a href="#" class="group cursor-pointer">
+            <div class="flex items-center rounded-xl p-3.5 gap-3 hover:bg-muted transition-all">
+              <i data-lucide="mail" class="size-5 text-secondary group-hover:text-foreground"></i>
+              <span class="font-medium text-secondary group-hover:text-foreground">My Invitations</span>
+            </div>
+          </a>
+          <a href="#" class="group cursor-pointer">
+            <div class="flex items-center rounded-xl p-3.5 gap-3 hover:bg-muted transition-all">
+              <i data-lucide="bar-chart-2" class="size-5 text-secondary group-hover:text-foreground"></i>
+              <span class="font-medium text-secondary group-hover:text-foreground">Analytics</span>
+            </div>
+          </a>
+          <a href="#" class="group cursor-pointer">
+            <div class="flex items-center rounded-xl p-3.5 gap-3 hover:bg-muted transition-all">
+              <i data-lucide="users" class="size-5 text-secondary group-hover:text-foreground"></i>
+              <span class="font-medium text-secondary group-hover:text-foreground">Guest Lists</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 mt-auto">
+        <div class="flex flex-col gap-1">
+          <a href="#" class="group cursor-pointer">
+            <div class="flex items-center rounded-xl p-3.5 gap-3 hover:bg-muted transition-all">
+              <i data-lucide="settings" class="size-5 text-secondary group-hover:text-foreground"></i>
+              <span class="font-medium text-secondary group-hover:text-foreground">Settings</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 lg:ml-[280px] flex flex-col min-h-screen">
+    <!-- Header -->
+    <div class="flex items-center justify-between h-[90px] border-b border-border bg-white px-5 md:px-8 sticky top-0 z-30">
+      <div class="flex items-center gap-4">
+        <button onclick="toggleSidebar()" class="lg:hidden size-11 flex items-center justify-center rounded-xl ring-1 ring-border cursor-pointer hover:bg-muted transition-colors">
+          <i data-lucide="menu" class="size-6"></i>
+        </button>
+        <h2 class="hidden lg:block font-bold text-2xl">Template Library</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="openSearchModal()" class="size-11 flex items-center justify-center rounded-xl ring-1 ring-border cursor-pointer hover:bg-muted transition-colors">
+          <i data-lucide="search" class="size-5 text-secondary"></i>
+        </button>
+        <button class="size-11 flex items-center justify-center rounded-xl ring-1 ring-border cursor-pointer relative hover:bg-muted transition-colors">
+          <i data-lucide="bell" class="size-5 text-secondary"></i>
+          <span class="absolute 2 top-2 right-2.5 size-2 rounded-full bg-error ring-2 ring-white"></span>
+        </button>
+        <div class="hidden md:flex items-center gap-3 pl-4 ml-1 border-l border-border cursor-pointer hover:opacity-80 transition-opacity">
+          <div class="text-right">
+            <p class="font-semibold text-sm">Sarah Jenkins</p>
+            <p class="text-secondary text-xs">Free Plan</p>
+          </div>
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="size-11 rounded-full object-cover ring-2 ring-border">
+        </div>
+      </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="flex-1 overflow-y-auto p-5 md:p-8">
+      <div class="max-w-7xl mx-auto">
+        
+        <!-- Hero Banner -->
+        <div class="bg-foreground rounded-3xl p-8 md:p-10 mb-8 flex items-center justify-between relative overflow-hidden shadow-xl">
+          <div class="relative z-10 max-w-xl">
+            <span class="inline-block px-3 py-1 bg-white/10 text-white text-xs font-semibold rounded-full mb-4 backdrop-blur-sm border border-white/20">New Collection</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">Find the Perfect Design for Your Event</h2>
+            <p class="text-secondary text-white/70 mb-8 text-lg">Browse our curated collection of premium digital invitation templates. Customize in minutes, send instantly.</p>
+            <button class="bg-primary text-white px-8 py-3.5 rounded-full font-bold hover:bg-primary-hover transition-colors shadow-lg shadow-primary/30 cursor-pointer">
+              Explore Premium
+            </button>
+          </div>
+          <!-- Decorative Elements -->
+          <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-primary/20 to-transparent pointer-events-none"></div>
+          <i data-lucide="sparkles" class="absolute -right-10 -top-10 size-64 text-white/5 rotate-12 pointer-events-none"></i>
+          <i data-lucide="heart" class="absolute right-20 bottom-10 size-24 text-primary/20 -rotate-12 pointer-events-none"></i>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="overflow-x-auto scrollbar-hide mb-8">
+          <div class="flex gap-3 min-w-max pb-2">
+            <button data-filter-type="category" data-filter-value="all" onclick="filterByTab('category', 'all')" class="px-6 py-2.5 rounded-full bg-foreground text-white font-medium text-sm transition-all shadow-sm cursor-pointer">All Designs</button>
+            <button data-filter-type="category" data-filter-value="wedding" onclick="filterByTab('category', 'wedding')" class="px-6 py-2.5 rounded-full bg-white border border-border text-secondary hover:border-primary hover:text-primary font-medium text-sm transition-all cursor-pointer">Wedding</button>
+            <button data-filter-type="category" data-filter-value="birthday" onclick="filterByTab('category', 'birthday')" class="px-6 py-2.5 rounded-full bg-white border border-border text-secondary hover:border-primary hover:text-primary font-medium text-sm transition-all cursor-pointer">Birthday</button>
+            <button data-filter-type="category" data-filter-value="baby" onclick="filterByTab('category', 'baby')" class="px-6 py-2.5 rounded-full bg-white border border-border text-secondary hover:border-primary hover:text-primary font-medium text-sm transition-all cursor-pointer">Baby Shower</button>
+            <button data-filter-type="category" data-filter-value="corporate" onclick="filterByTab('category', 'corporate')" class="px-6 py-2.5 rounded-full bg-white border border-border text-secondary hover:border-primary hover:text-primary font-medium text-sm transition-all cursor-pointer">Corporate</button>
+          </div>
+          <input type="hidden" id="categoryFilter" value="all">
+        </div>
+
+        <!-- Template Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="itemsContainer">
+          
+          <!-- Card 1 -->
+          <div class="group flex flex-col bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300" data-item-id="tpl-1" data-category="wedding" data-searchable="elegant floral wedding classic gold">
+            <div class="relative aspect-[3/4] bg-muted overflow-hidden cursor-pointer" onclick="viewItem('tpl-1')">
+              <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500&h=667&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                <button class="px-5 py-2.5 bg-white rounded-full font-semibold text-sm text-foreground hover:bg-primary hover:text-white transition-colors shadow-lg">Preview</button>
+              </div>
+              <div class="absolute top-3 left-3">
+                <span class="bg-white/90 backdrop-blur-sm text-foreground text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">Wedding</span>
+              </div>
+            </div>
+            <div class="p-5 flex flex-col gap-1">
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="font-bold text-foreground truncate text-lg">Classic Floral</h3>
+                <button class="text-secondary hover:text-error transition-colors"><i data-lucide="heart" class="size-5"></i></button>
+              </div>
+              <p class="text-sm text-secondary">By Studio Design</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="group flex flex-col bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300" data-item-id="tpl-2" data-category="birthday" data-searchable="modern minimal birthday party fun">
+            <div class="relative aspect-[3/4] bg-muted overflow-hidden cursor-pointer" onclick="viewItem('tpl-2')">
+              <img src="https://images.unsplash.com/photo-1530103862676-de8892b07439?w=500&h=667&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                <button class="px-5 py-2.5 bg-white rounded-full font-semibold text-sm text-foreground hover:bg-primary hover:text-white transition-colors shadow-lg">Preview</button>
+              </div>
+              <div class="absolute top-3 left-3">
+                <span class="bg-white/90 backdrop-blur-sm text-foreground text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">Birthday</span>
+              </div>
+            </div>
+            <div class="p-5 flex flex-col gap-1">
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="font-bold text-foreground truncate text-lg">Modern Minimal</h3>
+                <button class="text-secondary hover:text-error transition-colors"><i data-lucide="heart" class="size-5"></i></button>
+              </div>
+              <p class="text-sm text-secondary">By Creative Co</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="group flex flex-col bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300" data-item-id="tpl-3" data-category="baby" data-searchable="cute animals baby shower pastel">
+            <div class="relative aspect-[3/4] bg-muted overflow-hidden cursor-pointer" onclick="viewItem('tpl-3')">
+              <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&h=667&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                <button class="px-5 py-2.5 bg-white rounded-full font-semibold text-sm text-foreground hover:bg-primary hover:text-white transition-colors shadow-lg">Preview</button>
+              </div>
+              <div class="absolute top-3 left-3">
+                <span class="bg-white/90 backdrop-blur-sm text-foreground text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">Baby Shower</span>
+              </div>
+            </div>
+            <div class="p-5 flex flex-col gap-1">
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="font-bold text-foreground truncate text-lg">Pastel Dreams</h3>
+                <button class="text-secondary hover:text-error transition-colors"><i data-lucide="heart" class="size-5"></i></button>
+              </div>
+              <p class="text-sm text-secondary">By Paper & Pen</p>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="group flex flex-col bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300" data-item-id="tpl-4" data-category="wedding" data-searchable="rustic wood nature wedding outdoor">
+            <div class="relative aspect-[3/4] bg-muted overflow-hidden cursor-pointer" onclick="viewItem('tpl-4')">
+              <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=500&h=667&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                <button class="px-5 py-2.5 bg-white rounded-full font-semibold text-sm text-foreground hover:bg-primary hover:text-white transition-colors shadow-lg">Preview</button>
+              </div>
+              <div class="absolute top-3 left-3">
+                <span class="bg-white/90 backdrop-blur-sm text-foreground text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">Wedding</span>
+              </div>
+            </div>
+            <div class="p-5 flex flex-col gap-1">
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="font-bold text-foreground truncate text-lg">Rustic Charm</h3>
+                <button class="text-secondary hover:text-error transition-colors"><i data-lucide="heart" class="size-5"></i></button>
+              </div>
+              <p class="text-sm text-secondary">By Nature Designs</p>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="group flex flex-col bg-white rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300" data-item-id="tpl-5" data-category="corporate" data-searchable="sleek dark corporate event business">
+            <div class="relative aspect-[3/4] bg-muted overflow-hidden cursor-pointer" onclick="viewItem('tpl-5')">
+              <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&h=667&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                <button class="px-5 py-2.5 bg-white rounded-full font-semibold text-sm text-foreground hover:bg-primary hover:text-white transition-colors shadow-lg">Preview</button>
+              </div>
+              <div class="absolute top-3 left-3">
+                <span class="bg-white/90 backdrop-blur-sm text-foreground text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">Corporate</span>
+              </div>
+            </div>
+            <div class="p-5 flex flex-col gap-1">
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="font-bold text-foreground truncate text-lg">Executive Gala</h3>
+                <button class="text-secondary hover:text-error transition-colors"><i data-lucide="heart" class="size-5"></i></button>
+              </div>
+              <p class="text-sm text-secondary">By Pro Events</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- No Results State -->
+        <div id="noResults" class="hidden flex-col items-center justify-center py-20 text-center">
+          <div class="size-20 bg-muted rounded-full flex items-center justify-center mb-4">
+            <i data-lucide="search-x" class="size-10 text-secondary"></i>
+          </div>
+          <h3 class="text-xl font-bold text-foreground mb-2">No templates found</h3>
+          <p class="text-secondary max-w-md">We couldn't find any templates matching your current filters. Try selecting a different category or clearing your search.</p>
+          <button onclick="filterByTab('category', 'all')" class="mt-6 px-6 py-3 bg-white border border-border rounded-full font-semibold text-foreground hover:border-primary hover:text-primary transition-colors cursor-pointer">Clear Filters</button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Search Modal -->
+<div id="search-modal" class="fixed inset-0 bg-black/50 z-[100] hidden items-start justify-center pt-[10vh] p-4 backdrop-blur-sm transition-opacity">
+  <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[80vh] overflow-hidden shadow-2xl flex flex-col">
+    <div class="p-4 border-b border-border">
+      <div class="flex items-center gap-3 bg-muted rounded-2xl px-4 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+        <i data-lucide="search" class="size-5 text-secondary"></i>
+        <input type="text" id="search-input" placeholder="Search templates, categories, or styles..." class="flex-1 py-4 bg-transparent outline-none text-foreground placeholder:text-secondary" oninput="handleSearch(this.value)">
+        <kbd class="hidden sm:inline-flex px-2 py-1 bg-white rounded-lg text-[10px] font-bold text-secondary border border-border shadow-sm">ESC</kbd>
+      </div>
+    </div>
+    <div class="p-4 overflow-y-auto flex-1">
+      <p class="text-xs font-bold text-secondary uppercase tracking-wider mb-3 px-2">Popular Searches</p>
+      <div id="search-results" class="flex flex-col gap-1">
+        <a href="#" class="flex items-center gap-4 p-3 rounded-2xl hover:bg-muted transition-all group">
+          <div class="size-10 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors"><i data-lucide="sparkles" class="size-5 text-primary group-hover:text-white"></i></div>
+          <div class="flex-1 min-w-0"><p class="font-semibold text-foreground truncate">Elegant Wedding</p><p class="text-sm text-secondary truncate">Floral, Gold, Classic</p></div>
+          <i data-lucide="arrow-right" class="size-4 text-secondary opacity-0 group-hover:opacity-100 transition-opacity"></i>
+        </a>
+        <a href="#" class="flex items-center gap-4 p-3 rounded-2xl hover:bg-muted transition-all group">
+          <div class="size-10 bg-warning/10 rounded-xl flex items-center justify-center group-hover:bg-warning group-hover:text-white transition-colors"><i data-lucide="gift" class="size-5 text-warning group-hover:text-white"></i></div>
+          <div class="flex-1 min-w-0"><p class="font-semibold text-foreground truncate">Kids Birthday</p><p class="text-sm text-secondary truncate">Fun, Colorful, Animals</p></div>
+          <i data-lucide="arrow-right" class="size-4 text-secondary opacity-0 group-hover:opacity-100 transition-opacity"></i>
+        </a>
+        <a href="#" class="flex items-center gap-4 p-3 rounded-2xl hover:bg-muted transition-all group">
+          <div class="size-10 bg-success/10 rounded-xl flex items-center justify-center group-hover:bg-success group-hover:text-white transition-colors"><i data-lucide="briefcase" class="size-5 text-success group-hover:text-white"></i></div>
+          <div class="flex-1 min-w-0"><p class="font-semibold text-foreground truncate">Corporate Event</p><p class="text-sm text-secondary truncate">Professional, Sleek, Dark</p></div>
+          <i data-lucide="arrow-right" class="size-4 text-secondary opacity-0 group-hover:opacity-100 transition-opacity"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal (Template Preview) -->
+<div id="detail-modal" class="fixed inset-0 bg-black/60 z-[100] hidden items-center justify-center p-4 md:p-8 backdrop-blur-sm">
+  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col md:flex-row relative">
+    <button onclick="closeDetail()" class="absolute top-4 right-4 z-10 size-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-muted transition-colors cursor-pointer shadow-sm">
+      <i data-lucide="x" class="size-5"></i>
+    </button>
+    
+    <!-- Left: Image Preview -->
+    <div class="w-full md:w-1/2 bg-muted p-6 md:p-10 flex items-center justify-center overflow-y-auto">
+      <img id="detailImage" src="" class="w-full max-w-sm rounded-xl shadow-lg object-cover aspect-[3/4]">
+    </div>
+    
+    <!-- Right: Details & Actions -->
+    <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col overflow-y-auto">
+      <div class="mb-6">
+        <span id="detailCategory" class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider rounded-full mb-3">Category</span>
+        <h2 id="detailTitle" class="text-3xl font-bold text-foreground mb-2">Template Title</h2>
+        <p id="detailAuthor" class="text-secondary font-medium">By Author Name</p>
+      </div>
+      
+      <div class="prose prose-sm text-secondary mb-8">
+        <p>This beautifully designed template is perfect for your upcoming event. Fully customizable text, colors, and layout to match your unique style.</p>
+        <ul class="mt-4 space-y-2">
+          <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="size-4 text-success"></i> Instant digital delivery</li>
+          <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="size-4 text-success"></i> Mobile-responsive design</li>
+          <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="size-4 text-success"></i> Built-in RSVP tracking</li>
+        </ul>
+      </div>
+      
+      <div class="mt-auto flex flex-col gap-3">
+        <button class="w-full py-4 bg-primary text-white rounded-full font-bold text-lg hover:bg-primary-hover transition-colors shadow-lg shadow-primary/30 cursor-pointer flex items-center justify-center gap-2">
+          <i data-lucide="edit-3" class="size-5"></i> Customize Template
+        </button>
+        <button class="w-full py-4 bg-white border-2 border-border text-foreground rounded-full font-bold text-lg hover:border-primary hover:text-primary transition-colors cursor-pointer">
+          Save to Favorites
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Data for Detail Modal
+const itemsData = {
+  'tpl-1': { title: 'Classic Floral', author: 'Studio Design', category: 'Wedding', image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500&h=667&fit=crop' },
+  'tpl-2': { title: 'Modern Minimal', author: 'Creative Co', category: 'Birthday', image: 'https://images.unsplash.com/photo-1530103862676-de8892b07439?w=500&h=667&fit=crop' },
+  'tpl-3': { title: 'Pastel Dreams', author: 'Paper & Pen', category: 'Baby Shower', image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&h=667&fit=crop' },
+  'tpl-4': { title: 'Rustic Charm', author: 'Nature Designs', category: 'Wedding', image: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=500&h=667&fit=crop' },
+  'tpl-5': { title: 'Executive Gala', author: 'Pro Events', category: 'Corporate', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&h=667&fit=crop' }
+};
+
+// Sidebar Toggle
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('-translate-x-full');
+  document.getElementById('sidebar-overlay').classList.toggle('hidden');
+}
+
+// Search Modal Logic
+function openSearchModal() { 
+  const modal = document.getElementById('search-modal');
+  modal.classList.remove('hidden'); 
+  modal.classList.add('flex'); 
+  setTimeout(() => document.getElementById('search-input').focus(), 10);
+}
+function closeSearchModal() { 
+  const modal = document.getElementById('search-modal');
+  modal.classList.add('hidden'); 
+  modal.classList.remove('flex'); 
+}
+document.getElementById('search-modal').addEventListener('click', function(e) { 
+  if (e.target === this) closeSearchModal(); 
+});
+document.addEventListener('keydown', function(e) { 
+  if (e.key === 'Escape') {
+    closeSearchModal(); 
+    closeDetail();
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { 
+    e.preventDefault(); 
+    openSearchModal(); 
+  } 
+});
+
+// Filtering Logic
+function filterByTab(type, value) {
+  // Update Pill Styles
+  document.querySelectorAll(`[data-filter-type="${type}"]`).forEach(btn => {
+    const isActive = btn.dataset.filterValue === value;
+    if (isActive) {
+      btn.classList.remove('bg-white', 'border', 'border-border', 'text-secondary', 'hover:border-primary', 'hover:text-primary');
+      btn.classList.add('bg-foreground', 'text-white');
+    } else {
+      btn.classList.add('bg-white', 'border', 'border-border', 'text-secondary', 'hover:border-primary', 'hover:text-primary');
+      btn.classList.remove('bg-foreground', 'text-white');
+    }
+  });
+  
+  document.getElementById(`${type}Filter`).value = value;
+  applyFilters();
+}
+
+function applyFilters() {
+  const search = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  const category = document.getElementById('categoryFilter')?.value || 'all';
+  let visible = 0;
+
+  document.querySelectorAll('[data-item-id]').forEach(item => {
+    const text = (item.dataset.searchable || item.textContent || '').toLowerCase();
+    const show = (search === '' || text.includes(search)) &&
+                 (category === 'all' || item.dataset.category === category);
+    
+    if (show) {
+      item.style.display = '';
+      // Small animation effect when showing
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(10px)';
+      setTimeout(() => {
+        item.style.transition = 'all 0.3s ease';
+        item.style.opacity = '1';
+        item.style.transform = 'translateY(0)';
+      }, 10);
+      visible++;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  const noResults = document.getElementById('noResults');
+  if (noResults) {
+    if (visible > 0) {
+      noResults.classList.add('hidden');
+      noResults.classList.remove('flex');
+    } else {
+      noResults.classList.remove('hidden');
+      noResults.classList.add('flex');
+    }
+  }
+}
+
+// Detail Modal Logic
+function viewItem(id) {
+  const data = itemsData[id];
+  if (!data) return;
+  
+  document.getElementById('detailImage').src = data.image;
+  document.getElementById('detailTitle').textContent = data.title;
+  document.getElementById('detailAuthor').textContent = `By ${data.author}`;
+  document.getElementById('detailCategory').textContent = data.category;
+  
+  const modal = document.getElementById('detail-modal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function closeDetail() {
+  const modal = document.getElementById('detail-modal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+}
+
+document.getElementById('detail-modal').addEventListener('click', function(e) { 
+  if (e.target === this) closeDetail(); 
+});
+
+// Dummy search handler for the modal
+function handleSearch(val) {
+  // In a real app, this would filter the search results list
+  console.log("Searching for:", val);
+}
+</script>
+
+<script>
+// Fallback link handler (injected by ShaynaBuilder)
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Show alert if no modal exists
+      var modal = document.getElementById('page-not-found-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        console.log('Navigation prevented: ' + this.href);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
