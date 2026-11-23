@@ -47,30 +47,70 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+<div class="w-full">
+    <!-- Header -->
+    <div class="flex flex-col items-center sm:items-start text-center sm:text-left mb-6">
+        <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-5 text-primary">
+            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                <path d="m16 19 2 2 4-4"/>
+            </svg>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight text-foreground mb-2">Verifikasi Email</h1>
+        <p class="text-secondary text-sm leading-relaxed">
+            Terima kasih telah mendaftar! Sebelum memulai, silakan klik tautan verifikasi yang telah kami kirimkan ke email Anda.
+        </p>
     </div>
 
+    <!-- Alerts -->
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        <div class="mb-5 p-4 rounded-xl bg-green-50 border border-green-200 text-sm text-green-800 flex items-start gap-3">
+            <svg class="size-5 text-green-600 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span>Tautan verifikasi baru telah berhasil dikirim ke alamat email Anda.</span>
         </div>
     @endif
 
     @if (session('error'))
-        <div class="mb-4 font-medium text-sm text-red-600">
-            {{ session('error') }}
+        <div class="mb-5 p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-800 flex items-start gap-3">
+            <svg class="size-5 text-red-600 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" x2="12" y1="8" y2="12"/>
+                <line x1="12" x2="12.01" y1="16" y2="16"/>
+            </svg>
+            <span>{{ session('error') }}</span>
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
-        <x-primary-button wire:click="sendVerification">
-            {{ __('Resend Verification Email') }}
-        </x-primary-button>
-
-        <button wire:click="logout" type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            {{ __('Log Out') }}
+    <!-- Actions -->
+    <div class="flex flex-col gap-4">
+        <button wire:click="sendVerification" 
+                wire:loading.attr="disabled"
+                type="button" 
+                class="w-full py-3.5 px-4 bg-primary hover:bg-primary-hover disabled:opacity-60 text-white font-semibold rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/35 transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer">
+            <span wire:loading.remove wire:target="sendVerification">Kirim Ulang Email Verifikasi</span>
+            <span wire:loading wire:target="sendVerification" class="flex items-center gap-2">
+                <svg class="animate-spin size-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Mengirim...
+            </span>
+            <svg wire:loading.remove wire:target="sendVerification" class="size-4 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="m12 5 7 7-7 7"/>
+            </svg>
         </button>
+
+        <div class="text-center mt-2">
+            <button wire:click="logout" 
+                    type="button" 
+                    class="text-sm font-semibold text-secondary hover:text-foreground transition-colors cursor-pointer">
+                Keluar (Log Out)
+            </button>
+        </div>
     </div>
 </div>
