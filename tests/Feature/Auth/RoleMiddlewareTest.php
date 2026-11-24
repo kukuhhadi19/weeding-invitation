@@ -27,14 +27,15 @@ test('regular user cannot access admin dashboard', function () {
     $response->assertForbidden();
 });
 
-test('unverified user cannot access user dashboard', function () {
+test('user can access dashboard without email verification barrier', function () {
     $user = User::factory()->unverified()->create([
         'role' => 'user',
     ]);
 
     $response = $this->actingAs($user)->get('/dashboard');
 
-    $response->assertRedirect(route('verification.notice'));
+    $response->assertOk();
+    $response->assertSee('Selamat datang, '.$user->name);
 });
 
 test('verified user can access dashboard and sees tier info', function () {

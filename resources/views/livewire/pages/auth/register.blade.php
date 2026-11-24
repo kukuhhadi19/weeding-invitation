@@ -30,8 +30,10 @@ new #[Layout('layouts.guest')] class extends Component
         $freeTier = \App\Models\SubscriptionTier::where('slug', 'free')->first();
         $validated['subscription_tier_id'] = $freeTier?->id;
         $validated['role'] = 'user';
+        $validated['email_verified_at'] = now();
 
-        event(new Registered($user = User::create($validated)));
+        $user = User::create($validated);
+        event(new Registered($user));
 
         Auth::login($user);
 

@@ -22,12 +22,6 @@ new #[Layout('layouts.guest')] class extends Component
 
         $user = auth()->user();
 
-        if ($user && ! $user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('verification.notice', absolute: false), navigate: true);
-
-            return;
-        }
-
         $targetRoute = ($user && $user->isAdmin()) 
             ? route('admin.dashboard', absolute: false) 
             : route('dashboard', absolute: false);
