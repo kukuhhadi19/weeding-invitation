@@ -3,28 +3,11 @@
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component
 {
-    public string $localVerificationUrl = '';
-
-    /**
-     * Mount the component.
-     */
-    public function mount(): void
-    {
-        if (config('app.debug') && Auth::check() && ! Auth::user()->hasVerifiedEmail()) {
-            $this->localVerificationUrl = URL::temporarySignedRoute(
-                'verification.verify',
-                now()->addMinutes(60),
-                ['id' => Auth::id(), 'hash' => sha1(Auth::user()->getEmailForVerification())]
-            );
-        }
-    }
-
     /**
      * Send an email verification notification to the user.
      */
@@ -49,14 +32,6 @@ new #[Layout('layouts.guest')] class extends Component
         \Illuminate\Support\Facades\RateLimiter::hit($throttleKey, 3600);
 
         Auth::user()->sendEmailVerificationNotification();
-
-        if (config('app.debug')) {
-            $this->localVerificationUrl = URL::temporarySignedRoute(
-                'verification.verify',
-                now()->addMinutes(60),
-                ['id' => Auth::id(), 'hash' => sha1(Auth::user()->getEmailForVerification())]
-            );
-        }
 
         Session::flash('status', 'verification-link-sent');
     }
@@ -95,7 +70,7 @@ new #[Layout('layouts.guest')] class extends Component
                 <circle cx="12" cy="12" r="10"/>
                 <path d="m9 12 2 2 4-4"/>
             </svg>
-            <span>Tautan verifikasi baru telah berhasil dikirim ke alamat email Anda.</span>
+            <span>Tautan verifikasi baru telah berhasil dikirim ke alamat email Anda. Silakan periksa kotak masuk atau spam email Anda.</span>
         </div>
     @endif
 
@@ -107,23 +82,6 @@ new #[Layout('layouts.guest')] class extends Component
                 <line x1="12" x2="12.01" y1="16" y2="16"/>
             </svg>
             <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
-    <!-- Local Preview Link Card (Dev Environment Only) -->
-    @if ($localVerificationUrl)
-        <div class="mb-5 p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-sm">
-            <div class="font-bold flex items-center gap-2">
-                <svg class="size-4 text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                </svg>
-                Tautan Verifikasi Email:
-            </div>
-            <p class="text-xs text-blue-700 mt-1">Klik tautan di bawah ini untuk menyelesaikan proses verifikasi dan membuka Dashboard:</p>
-            <a href="{{ $localVerificationUrl }}" class="inline-block mt-2.5 px-3.5 py-2 bg-primary hover:bg-primary-hover text-white font-semibold text-xs rounded-lg transition-colors shadow">
-                Verifikasi Akun & Masuk Dashboard &rarr;
-            </a>
         </div>
     @endif
 
