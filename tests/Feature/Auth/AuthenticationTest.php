@@ -43,7 +43,7 @@ test('users can not authenticate with invalid password', function () {
     $this->assertGuest();
 });
 
-test('users can login directly without verification barrier', function () {
+test('unverified user login redirects to verification notice', function () {
     $user = User::factory()->unverified()->create([
         'password' => \Illuminate\Support\Facades\Hash::make('Password123'),
     ]);
@@ -56,7 +56,7 @@ test('users can login directly without verification barrier', function () {
 
     $component
         ->assertHasNoErrors()
-        ->assertRedirect(route('dashboard', absolute: false));
+        ->assertRedirect(route('verification.notice', absolute: false));
 
     $this->assertAuthenticatedAs($user);
 });

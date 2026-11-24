@@ -12,7 +12,7 @@ test('registration screen can be rendered', function () {
         ->assertSeeVolt('pages.auth.register');
 });
 
-test('new users can register and are verified immediately', function () {
+test('new users can register and must verify email', function () {
     $component = Volt::test('pages.auth.register')
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
@@ -21,12 +21,12 @@ test('new users can register and are verified immediately', function () {
 
     $component->call('register');
 
-    $component->assertRedirect(route('dashboard', absolute: false));
+    $component->assertRedirect(route('verification.notice', absolute: false));
 
     $this->assertAuthenticated();
 
     $user = \App\Models\User::where('email', 'test@example.com')->first();
-    expect($user->hasVerifiedEmail())->toBeTrue();
+    expect($user->hasVerifiedEmail())->toBeFalse();
 });
 
 test('registration requires strong password', function () {

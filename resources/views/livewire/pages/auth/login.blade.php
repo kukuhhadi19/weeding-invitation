@@ -1,13 +1,17 @@
 <?php
 
 use App\Livewire\Forms\LoginForm;
+use App\Models\User;
+use App\Notifications\MagicLoginNotification;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component
 {
     public LoginForm $form;
+    public string $localMagicLink = '';
 
     /**
      * Handle an incoming authentication request.
@@ -22,11 +26,59 @@ new #[Layout('layouts.guest')] class extends Component
 
         $user = auth()->user();
 
+        if ($user && ! $user->hasVerifiedEmail()) {
+            $this->redirectIntended(default: route('verification.notice', absolute: false), navigate: true);
+
+            return;
+        }
+
         $targetRoute = ($user && $user->isAdmin()) 
             ? route('admin.dashboard', absolute: false) 
             : route('dashboard', absolute: false);
 
         $this->redirectIntended(default: $targetRoute, navigate: true);
+    }
+
+    /**
+     * Send a magic login link to the user's email.
+     */
+    public function sendMagicLink(): void
+    {
+        $email = trim($this->form->email);
+        if (empty($email)) {
+            $this->addError('form.email', 'Silakan masukkan alamat email Anda terlebih dahulu.');
+
+            return;
+        }
+
+        $user = User::where('email', $email)->first();
+
+        // Check Gmail dot-normalization if not found
+        if (! $user && str_ends_with(strtolower($email), '@gmail.com')) {
+            $parts = explode('@', strtolower($email));
+            $cleanUser = str_replace('.', '', $parts[0]);
+            $user = User::whereRaw("LOWER(REPLACE(email, '.', '')) = ?", [$cleanUser . '@gmail.com'])->first();
+        }
+
+        if (! $user) {
+            $this->addError('form.email', 'Alamat email ini tidak ditemukan di database.');
+
+            return;
+        }
+
+        $url = URL::temporarySignedRoute(
+            'login.magic',
+            now()->addMinutes(15),
+            ['user' => $user->id]
+        );
+
+        $user->notify(new MagicLoginNotification($url));
+
+        if (config('app.debug')) {
+            $this->localMagicLink = $url;
+        }
+
+        session()->flash('status', 'Tautan masuk berhasil dikirim ke ' . $user->email . '! Silakan periksa email Anda.');
     }
 }; ?>
 
@@ -39,18 +91,35 @@ new #[Layout('layouts.guest')] class extends Component
                 <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/>
             </svg>
         </div>
-        <h1 class="text-3xl font-bold tracking-tight text-foreground mb-2">Welcome back</h1>
-        <p class="text-secondary text-sm">Please enter your details to sign in to your account.</p>
+        <h1 class="text-3xl font-bold tracking-tight text-foreground mb-2">Selamat Datang</h1>
+        <p class="text-secondary text-sm">Masuk menggunakan kata sandi atau minta tautan masuk via email.</p>
     </div>
 
     <!-- Session Status Alert -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <!-- Local Preview Link Card (Dev Mode Only) -->
+    @if ($localMagicLink)
+        <div class="mb-5 p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-sm">
+            <div class="font-bold flex items-center gap-2">
+                <svg class="size-4 text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                Tautan Masuk Dikirim (Simulasi Email):
+            </div>
+            <p class="text-xs text-blue-700 mt-1">Buka tautan ini untuk menyelesaikan proses masuk ke Dashboard tanpa kata sandi:</p>
+            <a href="{{ $localMagicLink }}" class="inline-block mt-2.5 px-3.5 py-2 bg-primary hover:bg-primary-hover text-white font-semibold text-xs rounded-lg transition-colors shadow">
+                Klik Tautan Masuk & Masuk ke Dashboard &rarr;
+            </a>
+        </div>
+    @endif
+
     <!-- Form -->
     <form wire:submit="login" class="flex flex-col gap-4">
         <!-- Email Input -->
         <div class="flex flex-col gap-1.5">
-            <label for="email" class="text-sm font-semibold text-foreground">Email address</label>
+            <label for="email" class="text-sm font-semibold text-foreground">Alamat Email</label>
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
                     <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -74,12 +143,12 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Password Input -->
         <div class="flex flex-col gap-1.5" x-data="{ show: false }">
             <div class="flex items-center justify-between">
-                <label for="password" class="text-sm font-semibold text-foreground">Password</label>
+                <label for="password" class="text-sm font-semibold text-foreground">Kata Sandi</label>
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}" 
                        wire:navigate 
                        class="text-xs font-semibold text-primary hover:text-primary-hover transition-colors">
-                        Forgot password?
+                        Lupa kata sandi?
                     </a>
                 @endif
             </div>
@@ -96,7 +165,6 @@ new #[Layout('layouts.guest')] class extends Component
                        name="password" 
                        placeholder="••••••••" 
                        class="w-full pl-11 pr-11 py-3 bg-white border border-gray-200 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all text-foreground placeholder:text-secondary/50 text-sm"
-                       required 
                        autocomplete="current-password">
                 <button type="button" 
                         @click="show = !show" 
@@ -128,29 +196,55 @@ new #[Layout('layouts.guest')] class extends Component
                    type="checkbox" 
                    class="custom-checkbox">
             <label for="remember" class="text-xs font-medium text-secondary cursor-pointer select-none">
-                Remember me for 30 days
+                Ingat saya di perangkat ini
             </label>
         </div>
 
         <!-- Submit Button -->
         <button type="submit" 
                 class="w-full py-3.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary-hover hover:shadow-lg hover:shadow-primary/20 transition-all cursor-pointer mt-2 flex items-center justify-center gap-2 group">
-            <span>Sign In</span>
+            <span>Masuk dengan Kata Sandi</span>
             <svg class="size-4 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/>
                 <path d="m12 5 7 7-7 7"/>
             </svg>
+        </button>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 my-2">
+            <div class="flex-1 h-px bg-gray-200"></div>
+            <span class="text-xs text-secondary font-medium uppercase">Atau Masuk via Tautan</span>
+            <div class="flex-1 h-px bg-gray-200"></div>
+        </div>
+
+        <!-- Magic Link Button -->
+        <button type="button" 
+                wire:click="sendMagicLink" 
+                wire:loading.attr="disabled"
+                class="w-full py-3.5 px-4 bg-white border border-gray-200 hover:border-primary text-foreground hover:text-primary rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+            <svg class="size-4 text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"/>
+                <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/>
+            </svg>
+            <span wire:loading.remove wire:target="sendMagicLink">Kirim Tautan Masuk ke Email (Magic Link)</span>
+            <span wire:loading wire:target="sendMagicLink" class="flex items-center gap-2 text-xs">
+                <svg class="animate-spin size-4 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Membuat & Mengirim Tautan...
+            </span>
         </button>
     </form>
 
     <!-- Footer -->
     <div class="mt-8 text-center">
         <p class="text-xs text-secondary">
-            Don't have an account? 
+            Belum memiliki akun? 
             <a href="{{ route('register') }}" 
                wire:navigate 
                class="font-semibold text-primary hover:text-primary-hover transition-colors">
-                Sign up for free
+                Daftar sekarang gratis
             </a>
         </p>
     </div>
