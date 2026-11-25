@@ -250,6 +250,33 @@ test('invitation quota middleware blocks access when active invitation limit is 
         ->assertForbidden();
 });
 
+test('dashboard and subscription pages render unified sidebar and sticky header', function () {
+    $this->seed(SubscriptionTierSeeder::class);
+
+    $freeTier = SubscriptionTier::where('slug', 'free')->first();
+    $user = User::factory()->create([
+        'subscription_tier_id' => $freeTier->id,
+        'email_verified_at' => now(),
+    ]);
+
+    $this->actingAs($user)
+        ->get('/dashboard')
+        ->assertOk()
+        ->assertSee('Menu Utama')
+        ->assertSee('Langganan & Paket')
+        ->assertSee('Pengaturan Akun')
+        ->assertSee('Status Langganan dan Kuota')
+        ->assertSee('Paket Free')
+        ->assertSee('Email Terverifikasi')
+        ->assertSee('Keluar');
+
+    $this->actingAs($user)
+        ->get('/subscription')
+        ->assertOk()
+        ->assertSee('aria-label="Kembali"', false)
+        ->assertSee('Langganan & Paket');
+});
+
 test('profile account page renders dashboard-account sections and subscription quota', function () {
     $this->seed(SubscriptionTierSeeder::class);
 
@@ -262,10 +289,13 @@ test('profile account page renders dashboard-account sections and subscription q
     $this->actingAs($user)
         ->get('/profile')
         ->assertOk()
+        ->assertSee('aria-label="Kembali"', false)
         ->assertSee('Pengaturan Akun')
         ->assertSee('Langganan & Kuota', false)
         ->assertSee('Paket Free')
         ->assertSee('Informasi Profil')
         ->assertSee('Ubah Kata Sandi')
+        ->assertSee('Tindakan Akun')
+        ->assertSee('Keluar')
         ->assertSee('Hapus Akun');
 });

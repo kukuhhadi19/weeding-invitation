@@ -8,6 +8,13 @@ new class extends Component
 {
     public string $password = '';
 
+    public function logout(Logout $logout): void
+    {
+        $logout();
+
+        $this->redirect('/', navigate: true);
+    }
+
     /**
      * Delete the currently authenticated user.
      */
@@ -26,20 +33,35 @@ new class extends Component
 <section class="bg-white rounded-2xl border border-border overflow-hidden">
     <div class="p-5 md:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5">
         <div>
-            <h3 class="font-bold text-lg text-foreground">Hapus Akun</h3>
+            <h3 class="font-bold text-lg text-foreground">Tindakan Akun</h3>
             <p class="text-sm text-secondary mt-1 max-w-lg">
-                Setelah akun dihapus, seluruh data undangan, galeri foto, dan riwayat akun akan terhapus permanen.
+                Kelola sesi login Anda atau hapus akun beserta seluruh data undangan dan galeri foto secara permanen.
             </p>
         </div>
 
-        <button
-            type="button"
-            x-data=""
-            x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-            class="bg-error/10 text-error rounded-full py-3 px-6 text-sm font-bold hover:bg-error/20 transition-colors w-full sm:w-auto shrink-0 cursor-pointer"
-        >
-            Hapus Akun
-        </button>
+        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
+            <button
+                type="button"
+                wire:click="logout"
+                class="ring-1 ring-border rounded-full py-3 px-6 text-sm font-medium hover:bg-muted text-foreground transition-all w-full sm:w-auto flex items-center justify-center gap-2 cursor-pointer"
+            >
+                <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" x2="9" y1="12" y2="12" />
+                </svg>
+                Keluar
+            </button>
+
+            <button
+                type="button"
+                x-data=""
+                x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+                class="bg-error/10 text-error rounded-full py-3 px-6 text-sm font-bold hover:bg-error/20 transition-colors w-full sm:w-auto shrink-0 cursor-pointer"
+            >
+                Hapus Akun
+            </button>
+        </div>
     </div>
 
     <x-modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>

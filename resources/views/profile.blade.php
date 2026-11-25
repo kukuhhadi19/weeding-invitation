@@ -1,4 +1,8 @@
 <x-app-layout>
+    <x-slot name="backUrl">
+        {{ Auth::user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}
+    </x-slot>
+
     <x-slot name="header">
         Pengaturan Akun
     </x-slot>

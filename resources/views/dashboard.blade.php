@@ -6,65 +6,89 @@
     @php
         $user = Auth::user();
         $quota = app(\App\Services\SubscriptionLimitService::class)->getQuotaSummary($user);
+        $initials = collect(explode(' ', trim($user->name)))
+            ->filter()
+            ->take(2)
+            ->map(fn ($part) => mb_strtoupper(mb_substr($part, 0, 1)))
+            ->implode('');
     @endphp
 
     <div class="flex flex-col gap-6" x-data="{ wizardInfoOpen: false }">
-        <!-- Hero Greeting Card -->
-        <section class="bg-foreground rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl">
-            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div class="max-w-xl">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-white text-xs font-semibold rounded-full mb-4 backdrop-blur-sm border border-white/20">
-                        <span class="size-1.5 rounded-full bg-success"></span>
+        <!-- Account & Invitation Overview Card (Adopted from templates/dashboard-account.html) -->
+        <section class="bg-white rounded-2xl border border-border p-6 flex flex-col md:flex-row items-center md:items-start gap-5 md:gap-6 text-center md:text-left">
+            <div class="size-20 shrink-0 rounded-full bg-primary/10 text-primary font-bold text-2xl flex items-center justify-center border-4 border-muted">
+                {{ $initials ?: 'U' }}
+            </div>
+
+            <div class="flex-1 min-w-0">
+                <h2 class="text-2xl font-bold text-foreground leading-tight">
+                    Selamat datang, {{ $user->name }}!
+                </h2>
+                <p class="text-secondary text-sm mt-1 leading-relaxed">
+                    Kelola undangan pernikahan digital Anda, pantau kuota paket aktif, dan persiapkan hari bahagia Anda.
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-2 mt-4">
+                    <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
                         Paket {{ $quota['tier']->name }}
                     </span>
-                    <h2 class="text-2xl md:text-3xl font-bold leading-tight mb-2">
-                        Selamat datang, {{ $user->name }}!
-                    </h2>
-                    <p class="text-white/75 text-sm md:text-base leading-relaxed">
-                        Kelola undangan pernikahan digital Anda, pantau kuota paket aktif, dan pilih desain terbaik untuk hari bahagia Anda.
-                    </p>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-3 shrink-0">
-                    @if ($quota['limit_reached'])
-                        <button
-                            type="button"
-                            disabled
-                            aria-disabled="true"
-                            class="px-6 py-3.5 rounded-full bg-white/15 text-white/55 font-bold text-sm cursor-not-allowed flex items-center gap-2 border border-white/10"
-                        >
-                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                            </svg>
-                            Buat Undangan
-                        </button>
-
-                        <a
-                            href="{{ route('subscription.index') }}"
-                            wire:navigate
-                            class="px-6 py-3.5 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-lg shadow-primary/30 flex items-center gap-2"
-                        >
-                            Upgrade Paket &rarr;
-                        </a>
-                    @else
-                        <button
-                            type="button"
-                            @click="wizardInfoOpen = true"
-                            class="px-6 py-3.5 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-lg shadow-primary/30 cursor-pointer flex items-center gap-2"
-                        >
-                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14" />
-                                <path d="M12 5v14" />
-                            </svg>
-                            Buat Undangan
-                        </button>
+                    @if ($user->created_at)
+                        <span class="bg-muted text-secondary px-3 py-1 rounded-full text-xs font-medium">
+                            Bergabung {{ $user->created_at->translatedFormat('M Y') }}
+                        </span>
+                    @endif
+                    @if ($user->hasVerifiedEmail())
+                        <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
+                            <span class="size-1.5 rounded-full bg-success"></span>
+                            Email Terverifikasi
+                        </span>
                     @endif
                 </div>
             </div>
 
-            <!-- Decorative Gradient -->
-            <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-primary/20 to-transparent pointer-events-none"></div>
+            <div class="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full md:w-auto">
+                @if ($quota['limit_reached'])
+                    <button
+                        type="button"
+                        disabled
+                        aria-disabled="true"
+                        class="px-6 py-3 rounded-full bg-muted text-secondary font-bold text-sm cursor-not-allowed flex items-center justify-center gap-2 border border-border w-full sm:w-auto"
+                    >
+                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Buat Undangan
+                    </button>
+
+                    <a
+                        href="{{ route('subscription.index') }}"
+                        wire:navigate
+                        class="px-6 py-3 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-sm shadow-primary/20 flex items-center justify-center gap-2 w-full sm:w-auto"
+                    >
+                        Upgrade Paket &rarr;
+                    </a>
+                @else
+                    <button
+                        type="button"
+                        @click="wizardInfoOpen = true"
+                        class="px-6 py-3 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-sm shadow-primary/20 cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
+                    >
+                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14" />
+                            <path d="M12 5v14" />
+                        </svg>
+                        Buat Undangan
+                    </button>
+                @endif
+
+                <a
+                    href="{{ route('profile') }}"
+                    wire:navigate
+                    class="ring-1 ring-border rounded-full py-3 px-5 text-sm font-medium hover:ring-primary text-foreground transition-all text-center w-full sm:w-auto"
+                >
+                    Pengaturan Akun
+                </a>
+            </div>
         </section>
 
         <!-- Quota Reached Warning Banner -->

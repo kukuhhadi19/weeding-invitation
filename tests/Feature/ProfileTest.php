@@ -87,3 +87,15 @@ test('correct password must be provided to delete account', function () {
 
     $this->assertNotNull($user->fresh());
 });
+
+test('user can log out from profile account actions card', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    Volt::test('profile.delete-user-form')
+        ->call('logout')
+        ->assertRedirect('/');
+
+    $this->assertGuest();
+});

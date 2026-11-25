@@ -17,7 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => EnsureUserHasRole::class,
             'invitation.quota' => EnsureWithinInvitationQuota::class,
-            'invitation.quota' => \App\Http\Middleware\EnsureWithinInvitationQuota::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

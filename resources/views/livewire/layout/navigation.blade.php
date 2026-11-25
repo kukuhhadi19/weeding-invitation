@@ -2,6 +2,7 @@
 
 use App\Livewire\Actions\Logout;
 use App\Services\SubscriptionLimitService;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class extends Component
@@ -9,6 +10,7 @@ new class extends Component
     /**
      * Log the current user out of the application.
      */
+    #[On('logout-requested')]
     public function logout(Logout $logout): void
     {
         $logout();
@@ -104,17 +106,7 @@ new class extends Component
                                 <rect width="20" height="14" x="2" y="5" rx="2" />
                                 <line x1="2" x2="22" y1="10" y2="10" />
                             </svg>
-                            <span class="text-sm {{ $isSubscription ? 'font-semibold' : 'font-medium' }}">Langganan</span>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('profile') }}" wire:navigate @click="sidebarOpen = false" class="group cursor-pointer">
-                        <div class="flex items-center rounded-xl p-3.5 gap-3 transition-all {{ $isProfile ? 'bg-primary/10 text-primary' : 'text-secondary hover:bg-muted hover:text-foreground' }}">
-                            <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                                <circle cx="12" cy="7" r="4" />
-                            </svg>
-                            <span class="text-sm {{ $isProfile ? 'font-semibold' : 'font-medium' }}">Akun & Profil</span>
+                            <span class="text-sm {{ $isSubscription ? 'font-semibold' : 'font-medium' }}">Langganan &amp; Paket</span>
                         </div>
                     </a>
                 </div>
@@ -122,7 +114,7 @@ new class extends Component
 
             @if (auth()->user()?->isAdmin())
                 <div class="flex flex-col gap-3">
-                    <h3 class="font-semibold text-xs text-secondary uppercase tracking-wider px-2">Admin</h3>
+                    <h3 class="font-semibold text-xs text-secondary uppercase tracking-wider px-2">Panel Admin</h3>
                     <div class="flex flex-col gap-1">
                         <a href="{{ route('admin.dashboard') }}" wire:navigate @click="sidebarOpen = false" class="group cursor-pointer">
                             <div class="flex items-center rounded-xl p-3.5 gap-3 transition-all {{ $isAdmin ? 'bg-primary/10 text-primary' : 'text-secondary hover:bg-muted hover:text-foreground' }}">
@@ -137,10 +129,10 @@ new class extends Component
                 </div>
             @endif
 
-            <!-- Bottom Quota Summary & Logout -->
-            <div class="mt-auto flex flex-col gap-3 pt-4 border-t border-border">
+            <!-- Bottom Quota Summary, Account & Logout -->
+            <div class="mt-auto flex flex-col gap-2 pt-4 border-t border-border">
                 @if ($quota)
-                    <div class="bg-muted rounded-2xl p-4">
+                    <div class="bg-muted rounded-2xl p-4 mb-1">
                         <div class="flex items-center justify-between mb-1.5">
                             <span class="text-xs font-semibold text-foreground">Paket {{ $quota['tier']->name }}</span>
                             <span class="text-[11px] font-bold text-primary">
@@ -152,11 +144,21 @@ new class extends Component
                                 <div class="h-full bg-primary rounded-full" style="width: {{ $quota['usage_percentage'] }}%;"></div>
                             </div>
                         @endif
-                        <a href="{{ route('subscription.index') }}" wire:navigate class="text-xs font-semibold text-primary hover:text-primary-hover transition-colors inline-flex items-center gap-1">
+                        <a href="{{ route('subscription.index') }}" wire:navigate @click="sidebarOpen = false" class="text-xs font-semibold text-primary hover:text-primary-hover transition-colors inline-flex items-center gap-1">
                             Kelola Langganan &rarr;
                         </a>
                     </div>
                 @endif
+
+                <a href="{{ route('profile') }}" wire:navigate @click="sidebarOpen = false" class="group cursor-pointer">
+                    <div class="flex items-center rounded-xl p-3.5 gap-3 transition-all {{ $isProfile ? 'bg-primary/10 text-primary' : 'text-secondary hover:bg-muted hover:text-foreground' }}">
+                        <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        <span class="text-sm {{ $isProfile ? 'font-semibold' : 'font-medium' }}">Pengaturan Akun</span>
+                    </div>
+                </a>
 
                 <button
                     wire:click="logout"
