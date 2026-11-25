@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
+use Livewire\Volt\Volt;
 
 test('email verification screen can be rendered', function () {
     $user = User::factory()->unverified()->create();
@@ -51,11 +52,11 @@ test('resend verification email is rate limited to 3 attempts per hour', functio
     $this->actingAs($user);
 
     for ($i = 0; $i < 3; $i++) {
-        \Livewire\Volt\Volt::test('pages.auth.verify-email')
+        Volt::test('pages.auth.verify-email')
             ->call('sendVerification');
     }
 
-    \Livewire\Volt\Volt::test('pages.auth.verify-email')
+    Volt::test('pages.auth.verify-email')
         ->call('sendVerification')
         ->assertSee('Terlalu banyak permintaan kirim ulang');
 });

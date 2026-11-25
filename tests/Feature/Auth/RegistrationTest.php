@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\SubscriptionTier;
+use App\Models\User;
+use Database\Seeders\SubscriptionTierSeeder;
 use Livewire\Volt\Volt;
 
 test('registration screen can be rendered', function () {
@@ -25,7 +28,7 @@ test('new users can register and must verify email', function () {
 
     $this->assertAuthenticated();
 
-    $user = \App\Models\User::where('email', 'test@example.com')->first();
+    $user = User::where('email', 'test@example.com')->first();
     expect($user->hasVerifiedEmail())->toBeFalse();
 });
 
@@ -42,8 +45,8 @@ test('registration requires strong password', function () {
 });
 
 test('new user is assigned free tier by default', function () {
-    \Database\Seeders\SubscriptionTierSeeder::class;
-    $freeTier = \App\Models\SubscriptionTier::create([
+    SubscriptionTierSeeder::class;
+    $freeTier = SubscriptionTier::create([
         'name' => 'Free',
         'slug' => 'free',
         'price_monthly' => 0,
@@ -59,7 +62,7 @@ test('new user is assigned free tier by default', function () {
 
     $component->call('register');
 
-    $user = \App\Models\User::where('email', 'john@example.com')->first();
+    $user = User::where('email', 'john@example.com')->first();
     expect($user)->not->toBeNull();
     expect($user->role)->toBe('user');
     expect($user->subscription_tier_id)->toBe($freeTier->id);

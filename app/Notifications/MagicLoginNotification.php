@@ -10,9 +10,7 @@ class MagicLoginNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public string $url)
-    {
-    }
+    public function __construct(public string $url) {}
 
     public function via(object $notifiable): array
     {
@@ -23,7 +21,7 @@ class MagicLoginNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Tautan Masuk ke Akun Anda - Wedding Invitation')
-            ->greeting('Halo, ' . $notifiable->name . '!')
+            ->greeting('Halo, '.$notifiable->name.'!')
             ->line('Kami menerima permintaan untuk masuk ke akun Anda tanpa kata sandi.')
             ->action('Masuk ke Dashboard', $this->url)
             ->line('Tautan ini hanya berlaku selama 15 menit dan hanya dapat digunakan satu kali.')

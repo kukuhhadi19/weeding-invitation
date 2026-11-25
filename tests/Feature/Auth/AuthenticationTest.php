@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Volt\Volt;
 
 test('login screen can be rendered', function () {
@@ -45,7 +46,7 @@ test('users can not authenticate with invalid password', function () {
 
 test('unverified user login redirects to verification notice', function () {
     $user = User::factory()->unverified()->create([
-        'password' => \Illuminate\Support\Facades\Hash::make('Password123'),
+        'password' => Hash::make('Password123'),
     ]);
 
     $component = Volt::test('pages.auth.login')
@@ -81,7 +82,7 @@ test('login is rate limited after 5 failed attempts', function () {
 test('admin user login redirects to admin dashboard', function () {
     $admin = User::factory()->create([
         'role' => 'admin',
-        'password' => \Illuminate\Support\Facades\Hash::make('AdminPassword123'),
+        'password' => Hash::make('AdminPassword123'),
         'email_verified_at' => now(),
     ]);
 

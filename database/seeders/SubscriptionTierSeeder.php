@@ -23,7 +23,7 @@ class SubscriptionTierSeeder extends Seeder
                 'custom_slug' => false,
                 'priority_support' => false,
                 'analytics_level' => 'none',
-                'features_json' => json_encode(['watermark' => true, 'analytics' => 'none']),
+                'features_json' => ['watermark' => true, 'analytics' => 'none'],
             ],
             [
                 'name' => 'Basic',
@@ -35,7 +35,7 @@ class SubscriptionTierSeeder extends Seeder
                 'custom_slug' => false,
                 'priority_support' => false,
                 'analytics_level' => 'basic',
-                'features_json' => json_encode(['watermark' => false, 'analytics' => 'basic']),
+                'features_json' => ['watermark' => false, 'analytics' => 'basic'],
             ],
             [
                 'name' => 'Premium',
@@ -47,7 +47,7 @@ class SubscriptionTierSeeder extends Seeder
                 'custom_slug' => true,
                 'priority_support' => false,
                 'analytics_level' => 'full',
-                'features_json' => json_encode(['watermark' => false, 'custom_slug' => true, 'analytics' => 'full']),
+                'features_json' => ['watermark' => false, 'custom_slug' => true, 'analytics' => 'full'],
             ],
             [
                 'name' => 'Enterprise',
@@ -59,7 +59,7 @@ class SubscriptionTierSeeder extends Seeder
                 'custom_slug' => true,
                 'priority_support' => true,
                 'analytics_level' => 'full_export',
-                'features_json' => json_encode(['watermark' => false, 'custom_slug' => true, 'priority_support' => true, 'analytics' => 'full_export']),
+                'features_json' => ['watermark' => false, 'custom_slug' => true, 'priority_support' => true, 'analytics' => 'full_export'],
             ],
         ];
 
