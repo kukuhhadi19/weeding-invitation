@@ -29,6 +29,7 @@ Volt::route('transactions', 'pages.transactions')
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+    Volt::route('categories', 'pages.admin.categories')->name('categories.index');
 });
 
 Route::view('profile', 'profile')

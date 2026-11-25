@@ -24,6 +24,13 @@
         $tierDistributions = \App\Models\SubscriptionTier::withCount('users')
             ->orderBy('price_monthly')
             ->get();
+
+        $activeCategoriesCount = \Illuminate\Support\Facades\Schema::hasTable('categories')
+            ? \App\Models\Category::active()->count()
+            : 0;
+        $totalCategoriesCount = \Illuminate\Support\Facades\Schema::hasTable('categories')
+            ? \App\Models\Category::count()
+            : 0;
     @endphp
 
     <div
@@ -58,18 +65,18 @@
 
                 <div class="flex flex-wrap items-center gap-3">
                     <a
-                        href="#admin-transactions"
+                        href="{{ route('admin.categories.index') }}"
+                        wire:navigate
                         class="px-8 py-3.5 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-lg shadow-primary/30 inline-flex items-center gap-2"
+                    >
+                        Kelola Kategori ({{ $activeCategoriesCount }})
+                    </a>
+                    <a
+                        href="#admin-transactions"
+                        class="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/20 transition-colors"
                     >
                         Pantau Transaksi
                     </a>
-                    <button
-                        type="button"
-                        @click="$dispatch('open-soon-modal', { title: 'CRUD Kategori Template', description: 'Pengelolaan kategori template pernikahan (nama, slug, ikon, urutan tampil) akan dibangun pada GitHub Issue #5.', issue: 'Issue #5' })"
-                        class="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/20 transition-colors cursor-pointer"
-                    >
-                        Kelola Kategori
-                    </button>
                     <button
                         type="button"
                         @click="$dispatch('open-soon-modal', { title: 'CRUD Katalog Template', description: 'Unggah Blade template, thumbnail, dan konfigurasi themeConfig JSON terkunci akan tersedia pada GitHub Issue #6.', issue: 'Issue #6' })"
@@ -111,9 +118,12 @@
             </div>
 
             <div class="bg-white rounded-2xl border border-border p-6">
-                <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Transaksi Pending</p>
-                <p class="mt-2 text-3xl font-bold text-foreground">{{ number_format($pendingTransactions, 0, ',', '.') }}</p>
-                <p class="mt-1.5 text-xs text-secondary">Menunggu konfirmasi Midtrans</p>
+                <p class="text-xs font-semibold uppercase tracking-wider text-secondary">Kategori Template</p>
+                <p class="mt-2 text-3xl font-bold text-foreground">{{ number_format($activeCategoriesCount, 0, ',', '.') }}</p>
+                <p class="mt-1.5 text-xs text-secondary">
+                    Dari total {{ $totalCategoriesCount }} kategori &bull;
+                    <a href="{{ route('admin.categories.index') }}" wire:navigate class="text-primary font-semibold hover:underline">Kelola &rarr;</a>
+                </p>
             </div>
         </section>
 
