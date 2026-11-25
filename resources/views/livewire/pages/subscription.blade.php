@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\SubscriptionTier;
+use App\Services\MidtransService;
+use App\Services\SubscriptionCheckoutService;
 use App\Services\SubscriptionLimitService;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -11,6 +13,8 @@ new #[Layout('layouts.app')] class extends Component
 
     public bool $showCheckoutModal = false;
 
+    public ?string $checkoutError = null;
+
     public function selectPlan(int $tierId): void
     {
         $tier = SubscriptionTier::find($tierId);
@@ -19,6 +23,7 @@ new #[Layout('layouts.app')] class extends Component
             return;
         }
 
+        $this->checkoutError = null;
         $this->selectedTier = $tier;
         $this->showCheckoutModal = true;
     }
@@ -27,20 +32,42 @@ new #[Layout('layouts.app')] class extends Component
     {
         $this->showCheckoutModal = false;
         $this->selectedTier = null;
+        $this->checkoutError = null;
     }
 
-    public function with(SubscriptionLimitService $limitService): array
+    public function proceedCheckout(SubscriptionCheckoutService $checkoutService): void
+    {
+        if (! $this->selectedTier) {
+            return;
+        }
+
+        $this->checkoutError = null;
+
+        try {
+            $transaction = $checkoutService->initiateCheckout(auth()->user(), $this->selectedTier);
+        } catch (\Throwable $e) {
+            $this->checkoutError = $e->getMessage();
+
+            return;
+        }
+
+        $this->showCheckoutModal = false;
+        $this->dispatch('open-midtrans-snap', snapToken: $transaction->snap_token, orderId: $transaction->midtrans_order_id);
+    }
+
+    public function with(SubscriptionLimitService $limitService, MidtransService $midtransService): array
     {
         $user = auth()->user();
 
         return [
             'tiers' => SubscriptionTier::orderBy('price_monthly')->get(),
             'quota' => $limitService->getQuotaSummary($user),
+            'isMidtransConfigured' => $midtransService->isConfigured(),
         ];
     }
 }; ?>
 
-<div>
+<div x-data="{ snapWarning: null }" x-on:snap-unavailable.window="snapWarning = $event.detail.message">
     <x-slot name="header">
         Langganan &amp; Paket
     </x-slot>
@@ -62,6 +89,29 @@ new #[Layout('layouts.app')] class extends Component
             </div>
         @endif
 
+        @if (! $isMidtransConfigured)
+            <div class="p-4 rounded-2xl bg-warning/15 border border-warning/40 text-sm text-foreground flex items-start gap-3">
+                <svg class="size-5 text-amber-600 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                    <path d="M12 9v4" />
+                    <path d="M12 17h.01" />
+                </svg>
+                <div>
+                    <p class="font-semibold">Kredensial Midtrans Sandbox belum diatur</p>
+                    <p class="text-xs text-secondary mt-0.5">
+                        Lengkapi <code class="font-mono text-foreground">MIDTRANS_SERVER_KEY</code> dan <code class="font-mono text-foreground">MIDTRANS_CLIENT_KEY</code> pada file <code class="font-mono text-foreground">.env</code> untuk mengaktifkan pop-up pembayaran Snap Sandbox.
+                    </p>
+                </div>
+            </div>
+        @endif
+
+        <template x-if="snapWarning">
+            <div class="p-4 rounded-2xl bg-error/10 border border-error/20 text-sm text-foreground flex items-center justify-between gap-3">
+                <span x-text="snapWarning"></span>
+                <button type="button" @click="snapWarning = null" class="text-xs font-bold text-secondary hover:text-foreground cursor-pointer">Tutup</button>
+            </div>
+        </template>
+
         <!-- Current Subscription & Quota Overview -->
         <x-subscription-quota-card :quota="$quota" :show-manage-button="false" />
 
@@ -69,8 +119,20 @@ new #[Layout('layouts.app')] class extends Component
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
                 <h2 class="text-2xl font-bold tracking-tight text-foreground">Pilih Paket Langganan</h2>
-                <p class="text-sm text-secondary mt-1">Bandingkan kuota dan fitur setiap paket. Pembayaran mendukung QRIS, GoPay, Virtual Account, dan Kartu Kredit.</p>
+                <p class="text-sm text-secondary mt-1">Bandingkan kuota dan fitur setiap paket. Pembayaran mendukung QRIS, GoPay, Virtual Account, dan Kartu Kredit via Midtrans Snap.</p>
             </div>
+            <a
+                href="{{ route('transactions.index') }}"
+                wire:navigate
+                class="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-border text-sm font-semibold text-foreground hover:border-primary hover:text-primary transition-colors"
+            >
+                <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" />
+                    <path d="M14 8H8" />
+                    <path d="M16 12H8" />
+                </svg>
+                Riwayat Transaksi
+            </a>
         </div>
 
         <!-- 4-Tier Comparison Cards -->
@@ -146,7 +208,7 @@ new #[Layout('layouts.app')] class extends Component
                                     Cocok untuk mencoba membuat undangan digital pertama Anda.
                                     @break
                                 @case('basic')
-                                    Ideal untuk calon pengantin tanpa watermark & kuota foto lebih besar.
+                                    Ideal untuk calon pengantin tanpa watermark &amp; kuota foto lebih besar.
                                     @break
                                 @case('premium')
                                     Fitur lengkap dengan custom slug dan analitik tamu untuk acara spesial.
@@ -184,13 +246,29 @@ new #[Layout('layouts.app')] class extends Component
                         @endforeach
                     </ul>
 
-                    @if ($isCurrent)
+                    @if ($isCurrent && $tier->price_monthly === 0)
                         <button
                             type="button"
                             disabled
-                            class="w-full py-3 rounded-full font-bold text-sm cursor-not-allowed {{ $isPopular ? 'bg-white/15 text-white/70' : 'bg-muted text-secondary' }}"
+                            class="w-full py-3 rounded-full font-bold text-sm cursor-not-allowed bg-muted text-secondary"
                         >
                             Paket Anda Saat Ini
+                        </button>
+                    @elseif ($isCurrent)
+                        <button
+                            type="button"
+                            wire:click="selectPlan({{ $tier->id }})"
+                            class="w-full py-3 rounded-full font-bold text-sm transition-colors cursor-pointer {{ $isPopular ? 'bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/30' : 'bg-white text-primary ring-1 ring-primary hover:bg-primary/5' }}"
+                        >
+                            Paket Anda Saat Ini (Perpanjang)
+                        </button>
+                    @elseif ($tier->price_monthly === 0)
+                        <button
+                            type="button"
+                            disabled
+                            class="w-full py-3 rounded-full font-bold text-sm cursor-not-allowed bg-muted text-secondary"
+                        >
+                            Paket Gratis Dasar
                         </button>
                     @else
                         <button
@@ -206,9 +284,9 @@ new #[Layout('layouts.app')] class extends Component
         </div>
     </div>
 
-    <!-- Checkout Preview Modal (Placeholder for Issue #4 Midtrans Snap) -->
+    <!-- Checkout Modal with Midtrans Snap Trigger -->
     @if ($showCheckoutModal && $selectedTier)
-        <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
             <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl">
                 <div class="p-6 border-b border-border flex justify-between items-center">
                     <h3 class="font-bold text-xl text-foreground">Konfirmasi Pilihan Paket</h3>
@@ -229,20 +307,44 @@ new #[Layout('layouts.app')] class extends Component
                         </div>
                         <p class="text-secondary text-sm">
                             {{ $selectedTier->max_active_invitations === -1 ? 'Undangan Aktif Unlimited' : $selectedTier->max_active_invitations . ' Undangan Aktif' }}
-                            •
+                            &bull;
                             {{ $selectedTier->max_gallery_photos === -1 ? 'Galeri Foto Unlimited' : 'Maks. ' . $selectedTier->max_gallery_photos . ' Foto' }}
                         </p>
                     </div>
+
+                    @if ($checkoutError)
+                        <div class="p-3.5 rounded-xl bg-error/10 border border-error/20 text-xs text-error font-medium leading-relaxed">
+                            {{ $checkoutError }}
+                        </div>
+                    @endif
+
                     <div class="p-4 rounded-xl bg-muted text-xs text-secondary leading-relaxed">
-                        Pembayaran otomatis menggunakan <strong class="text-foreground">Midtrans Snap</strong> (QRIS, GoPay, Transfer Bank / VA, Kartu Kredit) akan diaktifkan pada tahap berikutnya (Issue #4).
+                        Pembayaran diproses aman melalui <strong class="text-foreground">Midtrans Snap</strong> (QRIS, GoPay, Transfer Bank / Virtual Account, Kartu Kredit). Paket aktif otomatis segera setelah pembayaran terkonfirmasi.
                     </div>
                 </div>
                 <div class="p-6 border-t border-border bg-card-grey/30 flex gap-3">
-                    <button type="button" wire:click="closeCheckoutModal" class="flex-1 py-3 bg-primary text-white rounded-full font-bold text-sm hover:bg-primary-hover cursor-pointer">
-                        Mengerti
+                    <button
+                        type="button"
+                        wire:click="closeCheckoutModal"
+                        class="py-3 px-5 ring-1 ring-border rounded-full font-semibold text-sm text-foreground hover:bg-muted cursor-pointer"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="proceedCheckout"
+                        wire:loading.attr="disabled"
+                        class="flex-1 py-3 bg-primary text-white rounded-full font-bold text-sm hover:bg-primary-hover cursor-pointer disabled:opacity-60"
+                    >
+                        <span wire:loading.remove wire:target="proceedCheckout">Bayar dengan Midtrans Snap</span>
+                        <span wire:loading wire:target="proceedCheckout">Menyiapkan Pembayaran...</span>
                     </button>
                 </div>
             </div>
         </div>
     @endif
+
+    @push('scripts')
+        <x-midtrans-snap-script />
+    @endpush
 </div>

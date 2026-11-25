@@ -40,4 +40,9 @@ class SubscriptionTier extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

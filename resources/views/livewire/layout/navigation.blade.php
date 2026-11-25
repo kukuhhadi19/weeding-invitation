@@ -70,6 +70,7 @@ new class extends Component
         @php
             $isDashboard = request()->routeIs('dashboard');
             $isAccount = request()->routeIs('profile') || request()->routeIs('subscription.*');
+            $isTransactions = request()->routeIs('transactions.*');
             $isAdmin = request()->routeIs('admin.*');
         @endphp
 
@@ -185,6 +186,18 @@ new class extends Component
                                 <circle cx="12" cy="7" r="4" />
                             </svg>
                             <span class="text-sm {{ $isAccount ? 'font-semibold' : 'font-medium' }}">Akun</span>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('transactions.index') }}" wire:navigate @click="sidebarOpen = false" class="group cursor-pointer">
+                        <div class="flex items-center rounded-xl p-3 gap-3 transition-all {{ $isTransactions ? 'bg-primary/10 text-primary' : 'text-secondary hover:bg-muted hover:text-foreground' }}">
+                            <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" />
+                                <path d="M14 8H8" />
+                                <path d="M16 12H8" />
+                                <path d="M13 16H8" />
+                            </svg>
+                            <span class="text-sm {{ $isTransactions ? 'font-semibold' : 'font-medium' }}">Riwayat Transaksi</span>
                         </div>
                     </a>
 
