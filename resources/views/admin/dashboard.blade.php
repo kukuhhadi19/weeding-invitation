@@ -3,6 +3,10 @@
         Admin Dashboard
     </x-slot>
 
+    <x-slot name="subtitle">
+        Kelola kategori template, desain undangan, serta pantau statistik platform.
+    </x-slot>
+
     <div class="flex flex-col gap-6">
         <section class="bg-white rounded-2xl border border-border p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>

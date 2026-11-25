@@ -41,12 +41,12 @@ new #[Layout('layouts.app')] class extends Component
 }; ?>
 
 <div>
-    <x-slot name="backUrl">
-        {{ auth()->user()?->isAdmin() ? route('admin.dashboard') : route('dashboard') }}
-    </x-slot>
-
     <x-slot name="header">
         Langganan &amp; Paket
+    </x-slot>
+
+    <x-slot name="subtitle">
+        Bandingkan kuota paket dan upgrade langganan undangan Anda.
     </x-slot>
 
     <div class="flex flex-col gap-8">
